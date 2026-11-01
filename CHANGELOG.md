@@ -10,6 +10,26 @@ case for a change — the alternative that was rejected, the defect it came from
 generalises — lives where it is maintained: [SCHEMA.md](SCHEMA.md) for the rule,
 [ROADMAP.md](ROADMAP.md) for the priority and its exit criteria, and the commit that landed it._
 
+### Changed — the docs repo's `AGENTS.md` is a fifth smaller
+
+No code, flag or payload key was added, changed or retired.
+
+- **The orientation `loam init --create` writes drops from 11,986 to 9,650 bytes**, about 580
+  tokens fewer in every turn of a session in the docs repo. A host loads that file whole on every
+  turn, and it sat 14 bytes under the 12,000-character cap the size test enforces. The cut text is
+  detail the on-demand pages already carry: how the generated views are styled and which file wins
+  a drill-down (`loam-drawing`), the service flow slot (`loam-authoring`), how the adopt brief
+  names edgeless elements (`loam-adopt`), the `loam delta` and `loam tasks` flags (`loam-implement`,
+  which runs in the service checkout, where this file is not loaded), the `review` pack of
+  `loam show` (`loam-feature`), the numbering of `loam-reports/` (`loam-report`), what the
+  `agentTools`, `agentProfile` and `agentFiles` keys of `loam.json` record, the Gemini and Amazon Q
+  command spellings their own generated files already use, and the MCP resource names the server
+  lists itself.
+- **What stays**: the directory map, the link convention and its reasons, `loam.json`'s
+  `docsDir` rule, the entry points, the cycle, the `--json` envelope and the gate model, the
+  identity rule, the list of reference pages and the safety rules. An existing docs repo receives
+  the shorter file at its next upgrade, when its version stamp changes.
+
 ### Added — level 1: the fleet spine without adoption
 
 One flag was added, `loam validate --spine`, and two payload keys: `joins` on `loam seed --json`
