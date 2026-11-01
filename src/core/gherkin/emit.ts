@@ -9,7 +9,7 @@
  * checklist matches on, which is why nothing here may reword a scenario body.
  */
 import { type Requirement } from "../document/spec.js";
-import { scenarioGherkin } from "../vocabulary/steps.js";
+import { featureKeywordLines, scenarioGherkin } from "../vocabulary/steps.js";
 import { existsSync } from "node:fs";
 import { featureSpecPaths, SPEC_AXES, type SpecAxis } from "../repo/paths.js";
 import { locateServicePaths } from "../repo/service-target.js";
@@ -78,22 +78,41 @@ export interface PlannedFeature {
    */
   stepless: string[];
   /**
-   * Names of scenarios whose markdown table could not be read as `Examples` —
-   * see `ScenarioGherkin.malformedExamples`. The table stays in the description
-   * and the file is valid Gherkin, so nothing downstream can notice: the
-   * emission is the only place this is visible at all.
+   * Names of scenarios whose markdown table could not be read as `Examples`, or
+   * that hold rows at the margin after the one that was — see
+   * `ScenarioGherkin.malformedExamples`. The rows stay in the description and
+   * the file is valid Gherkin, so nothing downstream can notice: the emission
+   * (and `loam validate`) is the only place this is visible at all.
    */
   malformedExamples: string[];
   /**
    * Names of scenarios that wrote a fenced block or an indented table where it
-   * could not become a step argument — see `ScenarioGherkin.strandedBlocks`.
-   * The text survives as description, so the file is valid Gherkin and the
-   * document still reads correctly; what is gone is the ARGUMENT, and a step
-   * definition that expected a payload or a table receives nothing.
+   * could not become a step argument, or a line under a step that is not one —
+   * see `ScenarioGherkin.strandedBlocks`. The text survives as description, so
+   * the file is valid Gherkin and the document still reads correctly; what is
+   * gone is the ARGUMENT, or the rest of the step's sentence.
    */
   strandedBlocks: string[];
+  /**
+   * Description lines Gherkin reads as a tag, a step, a scenario or a rule —
+   * see `ScenarioGherkin.keywordLines`. Unlike the three lists above these
+   * name the LINE, because one line is what the author rewords, and a line in
+   * the requirement's own text carries no `scenario`: it sits in the `Feature:`
+   * description, where a quoted `@Transactional` refuses the file just the same.
+   */
+  keywordLines: KeywordLine[];
   content: string;
 }
+
+/** One description line Gherkin will not read as description, and where it is. */
+export interface KeywordLine {
+  /** The scenario whose description holds it; absent for the requirement's own text. */
+  scenario?: string;
+  line: string;
+}
+
+/** What one requirement renders to, beside the file's text. */
+type Rendered = Pick<PlannedFeature, "content" | "digests" | "stepless" | "malformedExamples" | "strandedBlocks" | "keywordLines">;
 
 /**
  * The emission plan for one scope: one `.feature` per requirement.
@@ -130,13 +149,8 @@ export function planEmission(
         ...(opts.featureTag === undefined ? [] : [`@${opts.featureTag}`]),
         ...(axis.key === "archSpec" ? ["@architecture"] : []),
       ];
-      const { content, digests, stepless, malformedExamples, strandedBlocks } = renderFeature(
-        r,
-        { tags, version: opts.version },
-        opts.service,
-        axisLabel(axis),
-      );
-      out.push({ fileName, axis, requirement: r, digests, stepless, malformedExamples, strandedBlocks, content });
+      const rendered = renderFeature(r, { tags, version: opts.version }, opts.service, axisLabel(axis));
+      out.push({ fileName, axis, requirement: r, ...rendered });
     }
   }
   return out;
@@ -166,7 +180,7 @@ export function renderFeature(
   stamp: Stamp,
   service: string,
   axis: ScenarioAxis = "business",
-): { content: string; digests: string[]; stepless: string[]; malformedExamples: string[]; strandedBlocks: string[] } {
+): Rendered {
   const { tags, version } = stamp;
   const lines: string[] = [gherkinStampLine(version)];
   if (tags.length > 0) lines.push(tags.join(" "));
@@ -180,6 +194,7 @@ export function renderFeature(
   const stepless: string[] = [];
   const malformedExamples: string[] = [];
   const strandedBlocks: string[] = [];
+  const keywordLines: KeywordLine[] = featureKeywordLines(r.text).map((line) => ({ line }));
   for (const s of r.scenarios) {
     // The digest hashes the WHOLE body, table rows included, so a changed cell
     // is a changed scenario: `gherkin.stale` fires on an edited case exactly as
@@ -189,10 +204,12 @@ export function renderFeature(
     // stamps and grades `gherkin.current` until somebody regenerates it.
     const digest = scenarioDigest(service, s.lines, axis);
     digests.push(digest);
-    const { description, steps, examples, malformedExamples: broken, strandedBlocks: stranded } = scenarioGherkin(s.lines);
+    const shape = scenarioGherkin(s.lines);
+    const { description, steps, examples } = shape;
     if (steps.length === 0) stepless.push(s.name);
-    if (broken) malformedExamples.push(s.name);
-    if (stranded) strandedBlocks.push(s.name);
+    if (shape.malformedExamples) malformedExamples.push(s.name);
+    if (shape.strandedBlocks) strandedBlocks.push(s.name);
+    for (const line of shape.keywordLines) keywordLines.push({ scenario: s.name, line });
     // The keyword is the whole difference between one case and twenty: cucumber
     // expands an outline into one report element per row, each carrying this
     // scenario's tag, and `runnerAnswers` confirms the claim only when every
@@ -218,7 +235,7 @@ export function renderFeature(
       for (const row of [examples.header, ...examples.rows]) lines.push(`      ${tableRow(row, [examples.header, ...examples.rows])}`);
     }
   }
-  return { content: lines.join("\n") + "\n", digests, stepless, malformedExamples, strandedBlocks };
+  return { content: lines.join("\n") + "\n", digests, stepless, malformedExamples, strandedBlocks, keywordLines };
 }
 
 /**

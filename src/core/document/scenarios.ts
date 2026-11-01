@@ -7,7 +7,7 @@
  * `vocabulary/report.ts`: a stepless scenario is a Finding with a subject and a
  * label, and that shape belongs to the report, not to the requirement.
  */
-import { scenarioGherkin, type EmittedStep } from "../vocabulary/steps.js";
+import { featureKeywordLines, scenarioGherkin, type EmittedStep } from "../vocabulary/steps.js";
 import type { Finding } from "../vocabulary/report.js";
 import { type Requirement } from "./spec.js";
 
@@ -254,8 +254,9 @@ function mismatchFindings(label: string, subject: string, reqs: Requirement[]): 
 }
 
 /**
- * Scenarios whose table or block `loam gherkin` could not read — the two flags
- * `scenarioGherkin` sets, as findings, so the gate says what the emission says.
+ * What `loam gherkin` could not carry into the test — the two scenario flags
+ * `scenarioGherkin` sets, and the description lines Gherkin reads as keywords —
+ * as findings, so the gate says what the emission says.
  *
  * Before this, only `loam gherkin` printed them, and only to whoever ran it in
  * the service repo; the document that carried the table graded green in
@@ -268,17 +269,28 @@ function mismatchFindings(label: string, subject: string, reqs: Requirement[]): 
  *
  * Two codes because the emitter keeps two flags, for the reason it gives:
  * one fix is "make the table readable", the other "move the block under its
- * step", and a machine must not have to guess which was meant.
+ * step", and a machine must not have to guess which was meant. The third,
+ * `requirements.description-keyword`, is a third fix — reword one line — and
+ * names the line, the requirement's own text included: it is the `Feature:`
+ * description of the same file.
  */
 function unreadFindings(label: string, subject: string, reqs: Requirement[]): Finding[] {
   const malformed: string[] = [];
   const stranded: string[] = [];
+  const keyword: string[] = [];
+  // One detail per LINE: the fix is rewording each, and a count would leave the
+  // author finding the rest one validate run at a time.
+  const named = (where: string, lines: string[]): void => {
+    for (const line of lines) keyword.push(`${where}: \`${line}\``);
+  };
   for (const r of reqs) {
     if (r.kind === "REMOVED") continue;
+    named(r.name, featureKeywordLines(r.text));
     for (const s of r.scenarios) {
-      const { malformedExamples, strandedBlocks } = scenarioGherkin(s.lines);
+      const { malformedExamples, strandedBlocks, keywordLines } = scenarioGherkin(s.lines);
       if (malformedExamples) malformed.push(`${r.name} — ${s.name}`);
       if (strandedBlocks) stranded.push(`${r.name} — ${s.name}`);
+      named(`${r.name} — ${s.name}`, keywordLines);
     }
   }
   const findings: Finding[] = [];
@@ -288,11 +300,12 @@ function unreadFindings(label: string, subject: string, reqs: Requirement[]): Fi
       code: "requirements.examples-malformed",
       subject,
       message:
-        `${label}: ${malformed.length} scenario(s) have a table at the margin that cannot be read as \`Examples\`, or an \`Examples:\` line. ` +
+        `${label}: ${malformed.length} scenario(s) have a table at the margin that cannot be read as \`Examples\`, rows at the margin after the table that was, or an \`Examples:\` line. ` +
         `An unread table stays description, so the scenario runs ONCE, not once per row, with any \`<placeholder>\` reaching the step as literal text; ` +
-        `an \`Examples:\` line kept as description makes cucumber refuse the whole file. ` +
+        `rows cut off from the Examples by a \`#\` comment or a blank line, or written as a second table, are cases nothing runs; ` +
+        `after an \`Examples:\` line kept as description the scenario runs no steps at all, with no error. ` +
         `A table needs its \`|---|\` delimiter row under the header (the \`.feature\` habit of leaving it out does not render as a table in Markdown), ` +
-        `every row the header's column count, and at least one row; write no \`Examples:\` line — the table at the margin IS the Examples.`,
+        `every row the header's column count, and at least one row, all in one unbroken table; write no \`Examples:\` line — the table at the margin IS the Examples.`,
       details: malformed,
       text: { detailPrefix: "- " },
     });
@@ -303,10 +316,23 @@ function unreadFindings(label: string, subject: string, reqs: Requirement[]): Fi
       code: "requirements.argument-stranded",
       subject,
       message:
-        `${label}: ${stranded.length} scenario(s) have a fenced block or an indented table that cannot become a step's argument — ` +
-        `written before the first step, or an indented table loam cannot read — so it stays description and the step definition receives no payload and no data table. ` +
-        `Indent it under the step it belongs to, and give an indented table its \`|---|\` delimiter row and equal columns.`,
+        `${label}: ${stranded.length} scenario(s) have a fenced block, a table or a line that cannot become part of a step — ` +
+        `a block written before the first step or second under one step, an indented table loam cannot read, or a sub-bullet or wrapped line under a step — so it stays description and the step definition receives no payload, no data table or half its sentence. ` +
+        `Put one block under the step it belongs to, give an indented table its \`|---|\` delimiter row and equal columns, write expected rows as that table rather than as bullets, and keep a step on one line.`,
       details: stranded,
+      text: { detailPrefix: "- " },
+    });
+  }
+  if (keyword.length > 0) {
+    findings.push({
+      severity: "warn",
+      code: "requirements.description-keyword",
+      subject,
+      message:
+        `${label}: ${keyword.length} line(s) of a requirement's text or a scenario's prose are emitted by \`loam gherkin\` as description and read by Gherkin as a tag (\`@…\`), a step (\`* …\`, or \`Given \`/\`When \`/\`Then \`/\`And \`/\`But \` with no bullet) or a new \`Scenario:\`/\`Example:\`/\`Rule:\`/\`Background:\`. ` +
+        `Cucumber then refuses the file, or runs a step or a scenario the document does not say. ` +
+        `Reword the line so it does not open that way — a step is a \`- **Given** …\` bullet, a note a \`- \` bullet; loam has no authored tags — then run \`loam gherkin\` again: a file generated before the fix otherwise reads as edited by hand.`,
+      details: keyword,
       text: { detailPrefix: "- " },
     });
   }

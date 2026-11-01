@@ -20,7 +20,7 @@ import { fenceTracker } from "../../kernel/fences.js";
  * `\\` unescapes too, so a cell can end in a backslash without eating the
  * delimiter after it.
  */
-function cellsOf(line: string): string[] | null {
+export function cellsOf(line: string): string[] | null {
   const t = line.trim();
   if (!/^\|.*\|$/.test(t)) return null;
   const cells: string[] = [];
@@ -70,6 +70,11 @@ export function blocksOf(lines: string[]): Block[] {
   const out: Block[] = [];
   const fenced = fenceTracker();
   let open: { indent: number; contentType?: string; lines: string[] } | null = null;
+  // The opener's marker: only the same one closes the block. `fenceTracker`
+  // holds that rule; ending the block on ANY marker made the two readers in
+  // this one function disagree, and a ``` payload quoting a ~~~ snippet lost
+  // everything above the snippet, with nothing reported.
+  let closer: string | null = null;
   for (let i = 0; i < lines.length; i += 1) {
     const line = lines[i]!;
     const inFence = fenced(line);
@@ -77,6 +82,7 @@ export function blocksOf(lines: string[]): Block[] {
     if (inFence && marker && open === null) {
       const info = marker[3]!.trim();
       open = { indent: marker[1]!.length, lines: [], ...(info.length > 0 ? { contentType: info } : {}) };
+      closer = marker[2]!;
       continue;
     }
     if (open !== null) {
@@ -84,7 +90,7 @@ export function blocksOf(lines: string[]): Block[] {
       // marker line is what ends the block rather than the first unfenced line
       // after it — reading it the other way swallows the line following the
       // fence into the payload.
-      if (marker) {
+      if (marker && marker[2] === closer) {
         out.push({ kind: "fence", ...open });
         open = null;
         continue;

@@ -238,22 +238,22 @@ loam `0.2.0-alpha.18` · fleet `examples/docs` · service `payment-service` · b
 | adopt brief | `loam adopt --service payment-service --json` | 61,180 | ~15,295 |
 | adopt brief, per-service part | `loam adopt --service payment-service --json --targets` | 25,484 | ~6,371 |
 | an adopt session before it reads code | the `loam-adopt` page + the full brief | 81,696 | ~20,424 |
-| one code, median of 373 | `loam explain <code> --json` | 625 | ~156 |
+| one code, median of 374 | `loam explain <code> --json` | 626 | ~157 |
 | one code, smallest / largest | `loam explain <code> --json` | 272 / 4,182 | ~68 / ~1,046 |
-| the whole code vocabulary | `loam explain --codes --json` | 271,584 | ~67,896 |
+| the whole code vocabulary | `loam explain --codes --json` | 273,908 | ~68,477 |
 
 | page | invocation | bytes | ~tokens | with `--no-fix-tables` | with `--fix-tables` |
 |---|---|---|---|---|---|
 | `loam-adopt` | `loam instructions loam-adopt payment-service` | 20,516 | ~5,129 | same bytes | same bytes |
 | `loam-feature` | `loam instructions loam-feature FEAT-101 "Split payments"` | 16,380 | ~4,095 | same bytes | same bytes |
 | `loam-implement` | `loam instructions loam-implement FEAT-101 payment-service` | 14,116 | ~3,529 | same bytes | same bytes |
-| `loam-check` | `loam instructions loam-check FEAT-101` | 4,657 | ~1,164 | same bytes | 147,070 (~36,768) |
+| `loam-check` | `loam instructions loam-check FEAT-101` | 4,657 | ~1,164 | same bytes | 148,594 (~37,149) |
 | `loam-verify` | `loam instructions loam-verify FEAT-101` | 14,937 | ~3,734 | 10,433 (~2,608) | same bytes |
 | `loam-ship` | `loam instructions loam-ship FEAT-101` | 10,290 | ~2,573 | same bytes | same bytes |
 | `loam-report` | `loam instructions loam-report` | 7,870 | ~1,968 | same bytes | same bytes |
-| `loam-codes` | `loam instructions loam-codes` | 73,083 | ~18,271 | same bytes | same bytes |
+| `loam-codes` | `loam instructions loam-codes` | 73,119 | ~18,280 | same bytes | same bytes |
 | `loam-spine` | `loam instructions loam-spine` | 20,380 | ~5,095 | same bytes | same bytes |
-| `loam-authoring` | `loam instructions loam-authoring` | 19,582 | ~4,896 | same bytes | same bytes |
+| `loam-authoring` | `loam instructions loam-authoring` | 20,016 | ~5,004 | same bytes | same bytes |
 | `loam-done-check` | `loam instructions loam-done-check` | 12,882 | ~3,221 | same bytes | same bytes |
 | `loam-drawing` | `loam instructions loam-drawing` | 16,144 | ~4,036 | same bytes | same bytes |
 

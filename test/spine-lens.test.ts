@@ -437,7 +437,7 @@ const HIDDEN_SNAPSHOT = [
   "openapi.response-undescribed",
   "permissions.invalid", "permissions.unenforced", "permissions.unknown",
   "requirements.argument-stranded", "requirements.assertionless-scenario", "requirements.covered",
-  "requirements.examples-malformed", "requirements.examples-unbound", "requirements.examples-unreferenced",
+  "requirements.description-keyword", "requirements.examples-malformed", "requirements.examples-unbound", "requirements.examples-unreferenced",
   "requirements.missing-scenarios", "requirements.stepless-scenario",
   "scaffold.placeholder",
   "service.likec4-config-missing", "service.likec4-config-stray", "service.model-excluded", "service.model-unexcluded",

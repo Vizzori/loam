@@ -105,7 +105,7 @@ const MAP_REST = `- \`loam validate --service <id>\` grades one service's own ax
   \`requirements.stepless-scenario\`, \`requirements.assertionless-scenario\`,
   \`requirements.examples-unbound\`, \`requirements.examples-unreferenced\`,
   \`requirements.examples-malformed\`, \`requirements.argument-stranded\`,
-  \`spec.merge-conflict\`, \`spec.duplicate-requirement\`, \`spec.no-requirements\`,
+  \`requirements.description-keyword\`, \`spec.merge-conflict\`, \`spec.duplicate-requirement\`, \`spec.no-requirements\`,
   \`spec.repeated-operations\`, \`spec.repeated-covers\`, \`openapi.invalid\`,
   \`openapi.duplicate-operationid\`, \`openapi.response-undescribed\`,
   \`openapi.ref-unresolved\`, \`api.ungoverned\`, \`api.ops-unlinked\`,

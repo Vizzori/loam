@@ -10,6 +10,53 @@ case for a change — the alternative that was rejected, the defect it came from
 generalises — lives where it is maintained: [SCHEMA.md](SCHEMA.md) for the rule,
 [ROADMAP.md](ROADMAP.md) for the priority and its exit criteria, and the commit that landed it._
 
+### Fixed — a scenario no longer loses part of its test without a word
+
+One finding code was added, a warning: `requirements.description-keyword`. One payload key was
+added: `keywordLines` on each written or replaced file of `loam gherkin --json`, a list of
+`{ scenario?, line }`. No flag was added. Two existing warnings, `requirements.examples-malformed`
+and `requirements.argument-stranded`, now fire on more shapes, so **`loam validate --strict` now
+exits 1 on a spec it passed before** when it holds any shape below; without `--strict` no exit
+code changed. The first three were found converting a 460-scenario component-test corpus into spec
+scenarios; wrapped steps are also in a pilot fleet's hand-written living specs, and were in 43
+steps of loam's own `meta/docs`, now rejoined.
+
+- **Rows at the margin after an outline's `Examples` table set `malformedExamples`.** A `#`
+  comment between two rows, or a blank line, ended the table there; the rows after it, a second
+  table, and a last row missing its closing pipe became description, so the outline ran the cases
+  above the cut and none below it, with `loam validate` and `loam gherkin` both silent. They are
+  now `requirements.examples-malformed`, and the rows are still kept as description. So is a table
+  written without its outer pipes (`---|---`), which ran once with literal `<placeholders>`.
+- **A line a step's list item holds that is not itself a step sets `strandedBlocks`.** Expected
+  rows written as sub-bullets, or the step's own sentence wrapped onto a second line — indented, or
+  at the margin with no blank line between — are part of the step to Markdown and landed in the
+  description above the steps: the runner got `Then the ledger holds:` with nothing after it, or
+  half a sentence to match. They are now `requirements.argument-stranded`; write the rows as an
+  indented table, and keep a step on one line. A line under a bullet that is not a step is not
+  reported.
+- **A description line Gherkin reads as a keyword is `requirements.description-keyword`.** A line
+  of a requirement's text or a scenario's prose that opens `@` is a tag line, and cucumber refuses
+  the file; under a scenario, `* ` or an unbulleted `Given `/`When `/`Then `/`And `/`But ` is a step
+  the document does not have; `Scenario:`, `Example:`, `Rule:` — and in the requirement's text
+  `Background:` — open structure the runner then follows. Each line is named, one detail per line
+  and one `keywordLines` entry per line. loam has no authored tags; reword the line, then run
+  `loam gherkin` again.
+- **A second fenced block or indented table under one step sets `strandedBlocks` and no longer
+  replaces the first.** Gherkin gives a step one of each; the second used to overwrite the first,
+  and the first payload left the test and the description alike. The first is now the step's
+  argument and the second stays description.
+- **A fenced payload closes only on its own marker.** A ```` ``` ```` block quoting a `~~~` snippet
+  ended at the snippet, and everything above it was lost from the docstring. The scenario reader
+  now holds the rule the rest of loam's Markdown walks already did.
+- **An `Examples:` line does not make cucumber refuse the file, as the messages said:** the steps
+  after it become the description of an `Examples` block with no table, and the scenario runs no
+  steps at all. The messages now say that, and a line reading `Examples:` inside an unread block
+  is reported like one written alone.
+- **What `loam gherkin` writes** is unchanged for every shape above except the last two fixes: a
+  scenario with two payloads under one step, or a payload quoting another fence marker, now emits
+  differently, and a suite generated before reads as edited by hand (`gherkin.edited`) for those
+  scenarios until `loam gherkin` runs again.
+
 ### Changed — the docs repo's `AGENTS.md` is a fifth smaller
 
 No code, flag or payload key was added, changed or retired.

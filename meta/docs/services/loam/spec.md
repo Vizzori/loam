@@ -51,8 +51,7 @@ a background synchronizer or a network call to answer any question about them.
 #### Scenario: The tool is uninstalled
 - **Given** a docs repo loam has been maintaining
 - **When** loam is deleted from the machine
-- **Then** the architecture and the specifications still read as documents, and nothing
-  in them is a pointer into storage that is now gone
+- **Then** the architecture and the specifications still read as documents, and nothing in them is a pointer into storage that is now gone
 
 ### Requirement: Two exit codes, and they mean what they say
 
@@ -88,8 +87,7 @@ change.
 #### Scenario: A consumer can tell which binary answered, and which verb
 - **Given** a `--json` envelope held out of context — a CI artifact, an MCP tool result
 - **When** the consumer needs to know whether to apply `docs.binary-behind`'s caution
-- **Then** `version` names the binary that produced it, and on a success envelope
-  `command` names the verb, so no consumer has to sniff for `valid` or `services`
+- **Then** `version` names the binary that produced it, and on a success envelope `command` names the verb, so no consumer has to sniff for `valid` or `services`
 
 #### Scenario: A usage error still produces an envelope
 - **Given** an unknown flag on a `--json` invocation
@@ -106,8 +104,7 @@ agent-facing docs it generates.
 #### Scenario: A code that ships undocumented is a branch nobody was told about
 - **Given** a new finding code added to the vocabulary
 - **When** the gate runs
-- **Then** `test/codes-drift.test.ts` fails until the generated AGENTS.md and slash
-  commands name it
+- **Then** `test/codes-drift.test.ts` fails until the generated AGENTS.md and slash commands name it
 
 #### Scenario: A reworded message does not break a consumer
 - **Given** a consumer branching on `error.code`
@@ -124,5 +121,4 @@ CLI, because loam instructs agents and an instruction that does not parse is a d
 #### Scenario: A flag is renamed and a printed instruction is not
 - **Given** a printed instruction naming a flag that has been renamed
 - **When** the gate runs
-- **Then** `test/agent-commands-runnable.test.ts` hands the line to `buildProgram()`
-  and fails on the parse
+- **Then** `test/agent-commands-runnable.test.ts` hands the line to `buildProgram()` and fails on the parse

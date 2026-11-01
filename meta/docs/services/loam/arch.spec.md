@@ -92,8 +92,7 @@ Covers: loam.core.envelope, loam.envelope -> console
 #### Scenario: A stray print is added to core
 - **Given** a `console.error` added to a module under `src/core/`
 - **When** `npm run arch:check` runs its core-boundary scan
-- **Then** it fails naming the file, and `test/arch-gate.test.ts`'s negative self-test
-  proves the scan can still see one
+- **Then** it fails naming the file, and `test/arch-gate.test.ts`'s negative self-test proves the scan can still see one
 
 #### Scenario: The historical exception is gone
 - **Given** `loadConfig`, which once printed its own failure
@@ -132,15 +131,12 @@ Covers: loam.commands.policy, loam.commands.unarchive -> loam.commands.archive, 
 #### Scenario: Two commands need the same helper
 - **Given** a helper written in one command and wanted by a second
 - **When** the second command needs it
-- **Then** it moves to `core/` or to `commands/policy/`, and the command→command import
-  is not added
+- **Then** it moves to `core/` or to `commands/policy/`, and the command→command import is not added
 
 #### Scenario: The structural exception stays structural
-- **Given** `commands/mcp/dispatch.ts`, which imports the `register*` functions of the
-  read commands it re-enters
+- **Given** `commands/mcp/dispatch.ts`, which imports the `register*` functions of the read commands it re-enters
 - **When** a reader asks whether that is the shape this rule bans
-- **Then** it is the same function `src/cli.ts` imports for the same purpose — building a
-  program — and the acyclic alternative does not exist
+- **Then** it is the same function `src/cli.ts` imports for the same purpose — building a program — and the acyclic alternative does not exist
 
 ### Requirement: A raw string that reaches a path join is validated at the command boundary
 
@@ -154,14 +150,12 @@ Covers: loam.core.kernel, loam.commands.new -> loam.core.kernel, loam.commands.a
 #### Scenario: A traversal is offered to validate
 - **Given** `loam validate --service ../../etc`
 - **When** the command resolves its target
-- **Then** it exits `invalid-option` through `--service` and the positional form alike, and
-  a tree hash before and after proves the refusal wrote nothing
+- **Then** it exits `invalid-option` through `--service` and the positional form alike, and a tree hash before and after proves the refusal wrote nothing
 
 #### Scenario: A badly-named directory still grades
 - **Given** a `services/` directory whose name the grammar would refuse
 - **When** `loam validate --service <that name>` runs
-- **Then** the enumeration answers first, so the one service `--all` complains about is not
-  the one service `--service` cannot look at
+- **Then** the enumeration answers first, so the one service `--all` complains about is not the one service `--service` cannot look at
 
 ### Requirement: A shared grammar is spelled in exactly one module
 
@@ -178,8 +172,7 @@ Covers: loam.core.kernel, loam.commands.explore -> loam.core.kernel
 - **Then** the rule-7 test fails, because the regex source must appear once
 
 #### Scenario: A printed command must parse
-- **Given** `loam explore --as <FEAT>`, which interpolates its argument into a `loam new`
-  line it prints for an agent to run
+- **Given** `loam explore --as <FEAT>`, which interpolates its argument into a `loam new` line it prints for an agent to run
 - **When** the id grammar is shared rather than copied
 - **Then** the printed line is one `loam new` accepts, which a private copy once made false
 
@@ -200,8 +193,7 @@ Covers: loam.core.projection, loam.commands.delta -> loam.core.projection, loam.
 #### Scenario: A dial with two readings is not a dial
 - **Given** the adoption-maturity ladder, written inside `loam list`
 - **When** `loam explore` needs the same rung
-- **Then** it moves to `core/vocabulary/`, because two copies of one ladder answer
-  differently the day one of them is edited
+- **Then** it moves to `core/vocabulary/`, because two copies of one ladder answer differently the day one of them is edited
 
 ### Requirement: A class is an Error subclass or a per-invocation cache
 
@@ -220,8 +212,7 @@ Covers: loam.core.fleet_context
 #### Scenario: The one cache dies with its invocation
 - **Given** a `FleetContext` built for one command run
 - **When** the run ends
-- **Then** nothing it cached survives into the next, because tests `chdir` per invocation
-  and a value cached at import time leaks across them
+- **Then** nothing it cached survives into the next, because tests `chdir` per invocation and a value cached at import time leaks across them
 
 ### Requirement: A FleetContext method may memoise; it may never compute
 
@@ -235,14 +226,12 @@ Covers: loam.core.fleet_context, loam.core.fleet_context -> loam.core.openapi
 #### Scenario: A reader is added
 - **Given** a new reader on `FleetContext`
 - **When** the gate runs
-- **Then** `test/fleet-context-parity.test.ts` compares it against its core counterpart over
-  a rich fixture, with a richness floor and a negative control proving the comparator bites
+- **Then** `test/fleet-context-parity.test.ts` compares it against its core counterpart over a rich fixture, with a richness floor and a negative control proving the comparator bites
 
 #### Scenario: The tombstone case
 - **Given** `serviceOperationIds`, whose context copy once interleaved removals with upserts
 - **When** `archive` (no context) and `validate` (context) asked whether an operation existed
-- **Then** they disagreed, and that disagreement gated an archive — which is why the rule is
-  a rule and not a preference
+- **Then** they disagreed, and that disagreement gated an archive — which is why the rule is a rule and not a preference
 
 ### Requirement: A shared helper is extracted at the third copy
 
@@ -261,8 +250,7 @@ Covers: loam.commands.policy, loam.commands.status -> loam.commands.policy, loam
 #### Scenario: A fix lands in one copy of four
 - **Given** four copies of an errno reading, one of which is corrected
 - **When** the other three are not
-- **Then** `list`, `show` and `validate` report `internal` where `status` correctly reports
-  `repository-unavailable`, which is the defect `docs-repo-gate.ts` exists to end
+- **Then** `list`, `show` and `validate` report `internal` where `status` correctly reports `repository-unavailable`, which is the defect `docs-repo-gate.ts` exists to end
 
 ### Requirement: A validated identifier carries a brand, constructible one way
 
@@ -276,14 +264,12 @@ Covers: loam.core.kernel, loam.core.repo -> loam.core.kernel
 #### Scenario: A cast is written outside a constructor module
 - **Given** an `as ServiceId` anywhere but the constructor modules
 - **When** `npm run arch:check` runs its brand-cast scan
-- **Then** it fails, because a brand reachable a second way is a type the compiler happens to
-  typeset
+- **Then** it fails, because a brand reachable a second way is a type the compiler happens to typeset
 
 #### Scenario: The enumeration returns names that failed validation
 - **Given** a `services/` directory whose name is not a legal id
 - **When** `loam list` enumerates it
-- **Then** it comes back as the raw form and is shown, because the raw and validated types are
-  two types rather than one type with a knowingly false cast
+- **Then** it comes back as the raw form and is shown, because the raw and validated types are two types rather than one type with a knowingly false cast
 
 ### Requirement: An expected outcome is a return value
 
@@ -297,8 +283,7 @@ Covers: loam.core.envelope, loam.commands.policy -> loam.core.envelope
 #### Scenario: The config file is a directory
 - **Given** a `loam.json` that is a directory rather than a file
 - **When** any command loads it
-- **Then** it refuses as the designed `config-invalid`, not as `internal` — which is what a read
-  performed one line above its own `try` produced
+- **Then** it refuses as the designed `config-invalid`, not as `internal` — which is what a read performed one line above its own `try` produced
 
 #### Scenario: A parse detail reaches the envelope
 - **Given** a `loam.json` that does not parse
@@ -322,8 +307,7 @@ Covers: loam.core.provenance, loam.invocation -> git
 #### Scenario: A repository is larger than the ceiling
 - **Given** a git read whose output exceeds the named ceiling
 - **When** the ceiling is reached
-- **Then** the child is killed and loam answers "git will not say", rather than reporting a
-  denominator computed from half the output
+- **Then** the child is killed and loam answers "git will not say", rather than reporting a denominator computed from half the output
 
 ### Requirement: src/ is a tree of packages, each at most five files, and the package graph is acyclic
 
@@ -338,8 +322,7 @@ Covers: loam.core, loam.commands
 #### Scenario: A sixth file arrives in a package
 - **Given** a package that already holds five files
 - **When** a sixth is added
-- **Then** `test/code-limits.test.ts` fails, and the question "which two subjects are in here?" is
-  asked by the tree instead of at review time
+- **Then** `test/code-limits.test.ts` fails, and the question "which two subjects are in here?" is asked by the tree instead of at review time
 
 #### Scenario: A module is moved between packages
 - **Given** a module moved from one package to another
@@ -347,11 +330,9 @@ Covers: loam.core, loam.commands
 - **Then** a package-level cycle the file graph cannot show is reported before the move is committed
 
 #### Scenario: The grouping that would have had a cycle
-- **Given** `fleet-context`, which looked like it belonged with `repo` because it is the read
-  model's cache
+- **Given** `fleet-context`, which looked like it belonged with `repo` because it is the read model's cache
 - **When** the package graph was computed over that grouping
-- **Then** `repo/` and `api/` pointed at each other while every file stayed acyclic, which is the
-  failure this obligation exists to catch
+- **Then** `repo/` and `api/` pointed at each other while every file stayed acyclic, which is the failure this obligation exists to catch
 
 ### Requirement: loam reads what a view declares and never computes what it shows
 
@@ -365,8 +346,7 @@ Covers: loam.core.c4, loam.parser, loam.parser -> docsRepo
 #### Scenario: A computed accessor is added
 - **Given** `computedModel` or `layoutedModel` written anywhere in `src/`
 - **When** `npm run arch:check` runs
-- **Then** it fails outright — there is no whitelist, because there were zero occurrences when
-  the rule landed
+- **Then** it fails outright — there is no whitelist, because there were zero occurrences when the rule landed
 
 #### Scenario: The raw record escapes its module
 - **Given** a `$data` access written outside `src/core/c4/parsed/`
@@ -376,8 +356,7 @@ Covers: loam.core.c4, loam.parser, loam.parser -> docsRepo
 #### Scenario: The shape moves upstream
 - **Given** a future LikeC4 whose parsed view record the adapter cannot read
 - **When** loam loads a document
-- **Then** it returns "no views read" and every dependent check reports could-not-look, never
-  nothing-wrong
+- **Then** it returns "no views read" and every dependent check reports could-not-look, never nothing-wrong
 
 ### Requirement: A feature is graded against the corpus its own merge would leave behind
 
@@ -392,30 +371,24 @@ document can never be graded against a state the merge does not write.
 Covers: loam.core.capabilities, loam.core.usecases, loam.core.delta
 
 #### Scenario: The analyst and the architect write one change
-- **Given** a feature whose capability delta ADDS a cross-service promise and whose own
-  `usecases/` flow claims it with `#req-`
+- **Given** a feature whose capability delta ADDS a cross-service promise and whose own `usecases/` flow claims it with `#req-`
 - **When** the archive gate grades it
-- **Then** the tag resolves and `capability.uncovered` is silent — where the living-only reading
-  refused a promise the same archive was about to land
+- **Then** the tag resolves and `capability.uncovered` is silent — where the living-only reading refused a promise the same archive was about to land
 
 #### Scenario: A flow draws a hop into a service the feature adds
-- **Given** a `dynamic view` under `features/<FEAT>/usecases/` naming an element declared only in
-  that feature's `delta.likec4`
+- **Given** a `dynamic view` under `features/<FEAT>/usecases/` naming an element declared only in that feature's `delta.likec4`
 - **When** the flow is parsed
-- **Then** it resolves, because the landscape it is parsed against is the merge preview
-  `planLandscapeMerge` produces and not the file on disk
+- **Then** it resolves, because the landscape it is parsed against is the merge preview `planLandscapeMerge` produces and not the file on disk
 
 #### Scenario: A flow names something the merge does not land
 - **Given** the same flow naming an element neither the living landscape nor the delta declares
 - **When** the overlay is loaded
-- **Then** `usecase.flow-invalid` refuses the archive before anything is written, and `--approve`
-  does not reach it — the flag overrides loam's judgement, never its ability to read an axis
+- **Then** `usecase.flow-invalid` refuses the archive before anything is written, and `--approve` does not reach it — the flag overrides loam's judgement, never its ability to read an axis
 
 #### Scenario: The overlay and the merge disagree
 - **Given** an overlay that approximated the merge instead of calling it
 - **When** the splice places an element differently, or refuses where the overlay allowed
-- **Then** a document would be graded against a map the archive never writes, which is the failure
-  this obligation exists to prevent
+- **Then** a document would be graded against a map the archive never writes, which is the failure this obligation exists to prevent
 
 ### Requirement: The topology is read at the parsed stage and flattened before any check sees it
 
@@ -433,14 +406,12 @@ Covers: loam.core.c4, loam.core.deployment -> loam.core.c4
 #### Scenario: The adapter is added without extending the parity pin
 - **Given** the deployment records read at the parsed stage
 - **When** `test/likec4-model-parity.test.ts` runs
-- **Then** it compares both model stages' deployment output as well as their elements and
-  relationships, so a stage that stops agreeing is a red test rather than a silent divergence
+- **Then** it compares both model stages' deployment output as well as their elements and relationships, so a stage that stops agreeing is a red test rather than a silent divergence
 
 #### Scenario: The upstream shape moves
 - **Given** a future LikeC4 whose deployment record the adapter cannot read
 - **When** loam loads the architecture project
-- **Then** it reports no topology read and every dependent check reports could-not-look, never
-  nothing-wrong
+- **Then** it reports no topology read and every dependent check reports could-not-look, never nothing-wrong
 
 #### Scenario: A consumer reaches past the adapter
 - **Given** a module outside `src/core/c4/` importing LikeC4's deployment types directly
@@ -459,23 +430,19 @@ any check, and the reviewer has no way to tell that from a rule that passed.
 Covers: loam.core.deployment, loam.commands.validate -> loam.core.deployment
 
 #### Scenario: An undeclared obligation tags a datacenter
-- **Given** `#obl-geo-redundnat` on a `deploymentNode` and no such entry in
-  `architecture/obligations.yaml`
+- **Given** `#obl-geo-redundnat` on a `deploymentNode` and no such entry in `architecture/obligations.yaml`
 - **When** `loam validate --all` runs
-- **Then** `obligation.unknown` fires and names the node, exactly as it does for the same typo
-  on a container
+- **Then** `obligation.unknown` fires and names the node, exactly as it does for the same typo on a container
 
 #### Scenario: A placed obligation has no requirement behind it
 - **Given** `#obl-geo-redundant` on a datacenter that no living arch requirement covers
 - **When** the fleet gate runs
-- **Then** `obligation.uncovered` warns and names the `Covers:` entry that would answer it —
-  the SAME code the logical model earns, because the reader acts identically either way
+- **Then** `obligation.uncovered` warns and names the `Covers:` entry that would answer it — the SAME code the logical model earns, because the reader acts identically either way
 
 #### Scenario: The fleet has no deployment model at all
 - **Given** a docs repo with no `deployment { }` block anywhere
 - **When** the fleet gate runs
-- **Then** the whole family is silent, because the axis opts in on the block's existence the
-  way the obligation vocabulary opts in on its file
+- **Then** the whole family is silent, because the axis opts in on the block's existence the way the obligation vocabulary opts in on its file
 
 ### Requirement: Covers gains a fourth entry form and no fifth grammar
 
@@ -496,14 +463,12 @@ Covers: loam.core.deployment, loam.core.c4
 #### Scenario: The covered node is renamed out from under the requirement
 - **Given** the same line after the standby node is renamed in `architecture/`
 - **When** the service is validated
-- **Then** `covers.unknown` fires with the close ids offered, which is the acceptance criterion
-  `intent.md` states
+- **Then** `covers.unknown` fires with the close ids offered, which is the acceptance criterion `intent.md` states
 
 #### Scenario: A bare id is written where the prefix belongs
 - **Given** `Covers: eu.dcA.k8sA` with no `node:` prefix
 - **When** the entry is parsed
-- **Then** it is read as an element entry and reported unresolved, because one object has one
-  spelling and a silent second one would make the grammar unlearnable
+- **Then** it is read as an element entry and reported unresolved, because one object has one spelling and a silent second one would make the grammar unlearnable
 
 ### Requirement: A feature carries topology the way it carries a flow
 
@@ -526,17 +491,14 @@ Covers: loam.core.deployment -> loam.core.repo, loam.core.coherence -> loam.core
 - **Then** the document resolves against the merge preview and archives as a whole-file copy
 
 #### Scenario: The feature rewrites a living topology document
-- **Given** a `features/<FEAT>/deployment/<name>.likec4` whose name the living `architecture/`
-  already holds
+- **Given** a `features/<FEAT>/deployment/<name>.likec4` whose name the living `architecture/` already holds
 - **When** the archive is planned
-- **Then** it is refused, and `--approve` does not move it, because the loss is mechanical
-  rather than a judgement
+- **Then** it is refused, and `--approve` does not move it, because the loss is mechanical rather than a judgement
 
 #### Scenario: The delta refusal names the slot
 - **Given** a `deployment { }` block written inside `delta.likec4`
 - **When** the merge is planned
-- **Then** it is still refused, and the message names the feature-local slot instead of sending
-  the author to the living landscape
+- **Then** it is still refused, and the message names the feature-local slot instead of sending the author to the living landscape
 
 ### Requirement: The axis says what it cannot know, on the surface an agent reads
 
@@ -559,5 +521,4 @@ Covers: loam.core.brief, loam.core.pack -> loam.core.deployment
 #### Scenario: The unchecked list is asked what green means here
 - **Given** an adoption brief printed for a fleet that has adopted the axis
 - **When** the unchecked statements are read
-- **Then** one of them says the deployment model is authored and unverifiable from here, beside
-  the fifteen that already say the same about the rest of the map
+- **Then** one of them says the deployment model is authored and unverifiable from here, beside the fifteen that already say the same about the rest of the map

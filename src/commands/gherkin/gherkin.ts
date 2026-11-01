@@ -303,6 +303,7 @@ export function registerGherkin(program: Command): void {
                   stepless: a.stepless,
                   malformedExamples: a.malformedExamples,
                   strandedBlocks: a.strandedBlocks,
+                  keywordLines: a.keywordLines,
                 }),
           })),
           deleted: orphans.map((o) => rel(o.path)),

@@ -486,6 +486,25 @@ describe("feature mode", () => {
     expect(parsed.scenarios).toHaveLength(1);
   });
 
+  it("names each line Gherkin would read as a keyword, in --json and in the text, and still writes the file", async () => {
+    // Reported, not rewritten: the line is the author's prose and the emitter
+    // may not reword it — but the report is the only place the runner's reading
+    // of it is visible before cucumber refuses the file.
+    const delta = TWO_SCENARIOS.replace("#### Scenario: Split rejects shares that do not sum\n", "#### Scenario: Split rejects shares that do not sum\n@negative\n");
+    const p = await project(
+      { ...coherentFixture(), "features/FEAT-1-split/specs/payment-split-service/spec.md": delta },
+      { service: "payment-split-service" },
+    );
+    const res = await runLoam(p.workDir, "gherkin", "FEAT-1", "--json");
+    expect(res.code).toBe(0);
+    const files = JSON.parse(res.stdout).files as Array<{ keywordLines: unknown }>;
+    expect(files.map((f) => f.keywordLines)).toEqual([[{ scenario: "Split rejects shares that do not sum", line: "@negative" }]]);
+    expect(await readWork(p, "features/loam/split-a-payment.feature")).toContain("    @negative\n");
+
+    const text = await runLoam(p.workDir, "gherkin", "FEAT-1", "--dry-run");
+    expect(text.stdout).toContain("⚠ scenario 'Split rejects shares that do not sum' has a line Gherkin reads as a tag, a step or a new scenario: `@negative`");
+  });
+
   it("the stamp line is a LITERAL on-disk contract, pinned byte for byte", () => {
     // Every other stamp assertion in this suite builds its expectation by
     // calling gherkinStampLine — so a reworded stamp plus its reworded parse

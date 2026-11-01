@@ -45,7 +45,7 @@ import {
   steplessScenarios,
 } from "../src/core/document/scenarios.js";
 import { renderFeature } from "../src/core/gherkin/emit.js";
-import { scenarioGherkin } from "../src/core/vocabulary/steps.js";
+import { featureKeywordLines, scenarioGherkin } from "../src/core/vocabulary/steps.js";
 import { serviceBrief } from "../src/core/brief/brief.js";
 
 /** The fixture every fleet-shaped case starts from: two services the landscape binds by title. */
@@ -942,6 +942,225 @@ describe("a table the emitter cannot read is flagged, never silently prose", () 
         ["Authorize a payment — Ledger rows"],
       ]);
       expect(findings.some((f) => f.code === "requirements.examples-malformed")).toBe(false);
+    } finally {
+      await p.destroy();
+    }
+  });
+});
+
+/**
+ * Three ways a scenario lost part of itself without a word, all found by
+ * converting a real component-test corpus — 460 scenarios written with Gherkin
+ * habits — into spec scenarios. Each emitted a file that parsed, or one
+ * cucumber refuses, while `loam validate` graded the document green:
+ *
+ * - a `#` comment between two rows of an Examples table ended the table there,
+ *   and every row after it became description: the outline ran fewer cases;
+ * - a list indented under a step — its expected rows, written as bullets —
+ *   became description above the steps, and the step reached the runner bare;
+ * - a description line opening with `@`, `* `, a step keyword or `Example:`
+ *   is a tag, a step or a new scenario to Gherkin, never prose.
+ */
+describe("what a scenario says is never lost without a word", () => {
+  const STEPS = ["- **Given** a reservation for <amount>", "- **When** the owner evaluates it", "- **Then** the answer is <answer>"];
+  const TABLE = ["| amount | answer |", "|--------|--------|", "| 10     | admit  |"];
+  const requirement = (body: string[], text = "Body."): ReturnType<typeof parseRequirements> =>
+    parseRequirements(["## Requirements", "", "### Requirement: Reserve gate", text, "", "#### Scenario: Admission", ...body].join("\n"));
+
+  it("rows after a comment inside the Examples table are malformed, not dropped from the outline", () => {
+    const shape = scenarioGherkin([...STEPS, "", ...TABLE, "# the next case was found in production", "| 20     | refuse |"]);
+    expect(shape.examples?.rows).toEqual([["10", "admit"]]);
+    expect(shape.malformedExamples).toBe(true);
+    // Prose is still never dropped: the row survives, as description.
+    expect(shape.description).toContain("| 20     | refuse |");
+  });
+
+  it("a blank line or a second table after the Examples is the same loss, said out loud", () => {
+    expect(scenarioGherkin([...STEPS, "", ...TABLE, "", "| 20     | refuse |"]).malformedExamples).toBe(true);
+    expect(scenarioGherkin([...STEPS, "", ...TABLE, "", ...TABLE]).malformedExamples).toBe(true);
+    // Prose after a readable outline — pipes in a sentence included — is prose.
+    expect(scenarioGherkin([...STEPS, "", ...TABLE, "", "Amounts are in EUR."]).malformedExamples).toBe(false);
+    expect(scenarioGherkin([...STEPS, "", ...TABLE, "", "Choose a | b, never both."]).malformedExamples).toBe(false);
+  });
+
+  it("a list indented under a step is a stranded argument, not description the step never receives", () => {
+    const shape = scenarioGherkin(["- **Given** a reservation for 10", "- **Then** the ledger holds:", "  - cash +10", "  - held +10"]);
+    expect(shape.steps.map((s) => s.text)).toEqual(["Given a reservation for 10", "Then the ledger holds:"]);
+    expect(shape.strandedBlocks).toBe(true);
+    expect(shape.description).toEqual(["- cash +10", "- held +10"]);
+  });
+
+  it("so is a step's text wrapped onto an indented line — the runner would match half a sentence", () => {
+    expect(scenarioGherkin(["- **Then** the answer carries the amount and the window", "  id of the current window"]).strandedBlocks).toBe(true);
+  });
+
+  it("a sentence wrapped at the margin with no blank line is the same truncation; after a blank line it is prose", () => {
+    // Markdown's lazy continuation: the line belongs to the step's paragraph.
+    expect(scenarioGherkin(["- **Given** a payment", "- **Then** the ledger holds the debit", "and the credit for the same amount"]).strandedBlocks).toBe(true);
+    expect(scenarioGherkin(["- **Given** a payment", "- **Then** the ledger holds the debit", "", "The credit is checked elsewhere."]).strandedBlocks).toBe(false);
+    // A heading or a table opens a block of its own and continues nothing.
+    expect(scenarioGherkin(["- **Then** it is admitted", "# a comment carried from the corpus"]).strandedBlocks).toBe(false);
+  });
+
+  it("a line under a bullet that is not a step is that note's own, wherever the note sits", () => {
+    const shape = scenarioGherkin([
+      "- **Given** a reservation",
+      "- **Then** it is admitted",
+      "- Notes:",
+      "  - the window is pinned in the fixture",
+      "  which is why no clock step appears",
+    ]);
+    expect(shape.strandedBlocks).toBe(false);
+  });
+
+  it("a second payload or table under one step is stranded, never written over the first", () => {
+    const FENCE = "```";
+    const twice = scenarioGherkin([
+      "- **When** the client posts",
+      `  ${FENCE}json`,
+      '  {"amount": 100}',
+      `  ${FENCE}`,
+      `  ${FENCE}json`,
+      '  {"status": "ok"}',
+      `  ${FENCE}`,
+      "- **Then** it is accepted",
+    ]);
+    expect(twice.steps[0]!.docstring?.lines).toEqual(['{"amount": 100}']);
+    expect(twice.strandedBlocks).toBe(true);
+    expect(twice.description).toEqual(['{"status": "ok"}']);
+    const tables = scenarioGherkin([
+      "- **Then** the ledger holds:",
+      "  | a | b |",
+      "  |---|---|",
+      "  | 1 | 2 |",
+      "",
+      "  | a | b |",
+      "  |---|---|",
+      "  | 3 | 4 |",
+    ]);
+    expect(tables.steps[0]!.table).toEqual([["a", "b"], ["1", "2"]]);
+    expect(tables.strandedBlocks).toBe(true);
+  });
+
+  it("a ``` payload quoting a ~~~ snippet is one docstring, closed only by its own marker", () => {
+    const shape = scenarioGherkin(["- **When** the renderer receives", "  ```markdown", "  Intro", "  ~~~", "  code line", "  ~~~", "  Outro", "  ```", "- **Then** it renders"]);
+    expect(shape.steps[0]!.docstring?.lines).toEqual(["Intro", "~~~", "code line", "~~~", "Outro"]);
+    expect(shape.description).toEqual([]);
+  });
+
+  it("a table meant without its outer pipes, or a last row missing one, is reported rather than run short", () => {
+    expect(scenarioGherkin([...STEPS, "", "amount | answer", "---|---", "10 | admit"]).malformedExamples).toBe(true);
+    const short = scenarioGherkin([...STEPS, "", ...TABLE, "| 20     | refuse"]);
+    expect(short.examples?.rows).toEqual([["10", "admit"]]);
+    expect(short.malformedExamples).toBe(true);
+  });
+
+  it("an `Examples:` line kept from an unread block is read by Gherkin like one written alone", () => {
+    expect(scenarioGherkin(["```", "Examples:", "```", ...STEPS]).malformedExamples).toBe(true);
+  });
+
+  it("an indented step is still a step, and an indented note before the first step is still description", () => {
+    const shape = scenarioGherkin([
+      "- a note about the fixture",
+      "  - with id block 2000-2099",
+      "- **Given** a reservation",
+      "  - **And** a second one",
+      "- **Then** both are admitted",
+    ]);
+    expect(shape.steps).toHaveLength(3);
+    expect(shape.strandedBlocks).toBe(false);
+  });
+
+  it("a description line Gherkin reads as a tag, a step, a scenario or a rule is reported", () => {
+    for (const line of [
+      "@negative @edge",
+      "* the window is pinned",
+      "When two reservations race, one wins.",
+      "And then nothing else moves.",
+      "Example: a 10 EUR budget",
+      "Scenario Outline: another one",
+      "Rule: the gate is atomic",
+    ]) {
+      expect(scenarioGherkin([line, "- **Then** it is admitted"]).keywordLines, line).toEqual([line]);
+    }
+    // What Gherkin reads as prose under a scenario is not reported.
+    for (const line of [
+      "- a note",
+      "+ another note",
+      "Given-ish prose",
+      "WHEN in capitals is prose to Gherkin",
+      "A note with an @ in the middle",
+      "Background: is prose once a scenario has begun",
+      "# a comment",
+    ]) {
+      expect(scenarioGherkin([line, "- **Then** it is admitted"]).keywordLines, line).toEqual([]);
+    }
+  });
+
+  it("the requirement's own text is read the same way — it is the Feature's description", () => {
+    expect(
+      featureKeywordLines(["The gate SHALL hold.", "Background: the window rule came from the KB.", "@Transactional holds it.", "When it races, one wins."]),
+    ).toEqual(["Background: the window rule came from the KB.", "@Transactional holds it."]);
+  });
+
+  it("the emission names every one of them, so `loam gherkin` says what the gate says", () => {
+    const [req] = requirement(["@negative", ...STEPS, "", ...TABLE, "# a comment", "| 20     | refuse |"], "@Transactional holds it.");
+    const out = renderFeature(req!, { tags: [], version: "0.0.0" }, "svc");
+    expect(out.malformedExamples).toEqual(["Admission"]);
+    expect(out.keywordLines).toEqual([{ line: "@Transactional holds it." }, { scenario: "Admission", line: "@negative" }]);
+  });
+
+  it("the gate reports each as a warning — the two codes it had, and one for a keyword line", () => {
+    const reqs = parseRequirements(
+      [
+        "## Requirements",
+        "",
+        "### Requirement: Reserve gate",
+        "Body.",
+        "",
+        "#### Scenario: Split table",
+        ...STEPS,
+        "",
+        ...TABLE,
+        "# a comment",
+        "| 20     | refuse |",
+        "",
+        "#### Scenario: Bulleted rows",
+        "- **Then** the ledger holds:",
+        "  - cash +10",
+        "",
+        "#### Scenario: Tagged",
+        "@negative @edge",
+        "* the window is pinned",
+        "- **Then** it is refused",
+      ].join("\n"),
+    );
+    const findings = examplesFindings("svc: requirements", "svc", reqs);
+    expect(findings.map((f) => [f.code, f.severity])).toEqual([
+      ["requirements.examples-malformed", "warn"],
+      ["requirements.argument-stranded", "warn"],
+      ["requirements.description-keyword", "warn"],
+    ]);
+    expect(findings[0]!.details).toEqual(["Reserve gate — Split table"]);
+    expect(findings[1]!.details).toEqual(["Reserve gate — Bulleted rows"]);
+    // One detail per line: the author rewords each, and is told about each.
+    expect(findings[2]!.details).toEqual(["Reserve gate — Tagged: `@negative @edge`", "Reserve gate — Tagged: `* the window is pinned`"]);
+  });
+
+  it("`validate --feature` warns on a keyword line in a delta, in the requirement text as well", async () => {
+    const delta = FEATURE_SPEC.replace(
+      "The service SHALL split a payment",
+      "@Transactional holds it.\nThe service SHALL split a payment",
+    );
+    const p = await makeProject({
+      ...coherentFixture(),
+      "features/FEAT-1-split/specs/payment-split-service/spec.md": delta,
+    });
+    try {
+      const res = await runLoam(p.workDir, "validate", "--feature", "FEAT-1", "--json");
+      const payload = JSON.parse(res.stdout) as { targets: Array<{ findings: Array<{ code: string; severity: string; details?: string[] }> }> };
+      const hit = payload.targets.flatMap((t) => t.findings).filter((f) => f.code === "requirements.description-keyword");
+      expect(hit.map((f) => [f.severity, f.details])).toEqual([["warn", ["Split a payment: `@Transactional holds it.`"]]]);
     } finally {
       await p.destroy();
     }

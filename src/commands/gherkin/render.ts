@@ -51,17 +51,30 @@ const LOSSES = [
     why:
       "has a table loam could not read as Examples — the header needs its `|---|` delimiter row, every " +
       "row the header's column count, and at least one row under it — so it stayed in the description and " +
-      "this scenario runs ONCE, not once per case; or an `Examples:` line, which makes cucumber refuse the " +
-      "file: delete it, the margin table IS the Examples",
+      "this scenario runs ONCE, not once per case; or rows at the margin after the table it did read — cut " +
+      "off by a `#` comment or a blank line, or a second table — which are cases nothing runs: keep every " +
+      "case in one unbroken table; or an `Examples:` line, after which the scenario runs no steps at all: " +
+      "delete it, the margin table IS the Examples",
   },
   {
     of: (a: ActionRow): string[] => (a.action === "kept" ? [] : a.strandedBlocks),
     why:
-      "wrote a fenced block or an indented table where no step precedes it, or a table loam could " +
-      "not read — it stayed in the description, so the step definition receives NO payload and no " +
-      "data table; put the block under the step it belongs to, with a `|---|` row and equal columns",
+      "wrote a fenced block or an indented table where no step precedes it, a second one under the same " +
+      "step, or a table loam could not read — or a sub-bullet or a wrapped line under a step — and it " +
+      "stayed in the description, so the step definition receives no payload, no data table or half its " +
+      "sentence; put one block under the step it belongs to, with a `|---|` row and equal columns, write " +
+      "expected rows as that table, and keep a step on one line",
   },
 ];
+
+/**
+ * Said once per LINE rather than per scenario, unlike the losses above: the
+ * fix is rewording that one line, and a scenario can hold several.
+ */
+const KEYWORD_WHY =
+  "cucumber refuses the file or runs what the document does not say; reword it so it does not open with " +
+  "`@`, `* `, `Given `/`When `/`Then `/`And `/`But ` or `Scenario:`/`Example:`/`Rule:`/`Background:` — a step " +
+  "is a `- **Given** …` bullet, a note a `- ` bullet — then run `loam gherkin` again";
 
 export function render(actions: ActionRow[], ctx: RenderContext): void {
   const { service, root, dryRun, featureId } = ctx;
@@ -89,6 +102,10 @@ export function render(actions: ActionRow[], ctx: RenderContext): void {
     );
     for (const loss of LOSSES) {
       for (const name of loss.of(a)) console.log(`      ⚠ scenario '${name}' ${loss.why}`);
+    }
+    for (const k of a.keywordLines) {
+      const where = k.scenario === undefined ? "the requirement's text" : `scenario '${k.scenario}'`;
+      console.log(`      ⚠ ${where} has a line Gherkin reads as a tag, a step or a new scenario: \`${k.line}\` — ${KEYWORD_WHY}`);
     }
   }
   for (const o of ctx.orphans) {
