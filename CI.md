@@ -38,7 +38,7 @@ jobs:
   joins:
     runs-on: ubuntu-latest
     env:
-      LOAM: "@ybotok/loam@0.2.0-alpha.18"   # an exact version: bump it in a PR of its own, re-seeded
+      LOAM: "@ybotok/loam@0.2.0-alpha.19"   # an exact version: bump it in a PR of its own, re-seeded
       BASE: origin/${{ github.base_ref }}
     steps:
       - uses: actions/checkout@v4
@@ -76,7 +76,7 @@ jobs:
   edges:
     runs-on: ubuntu-latest
     env:
-      LOAM: "@ybotok/loam@0.2.0-alpha.18"   # an exact version: bump it in a PR of its own
+      LOAM: "@ybotok/loam@0.2.0-alpha.19"   # an exact version: bump it in a PR of its own
       BASE: origin/${{ github.base_ref }}
     steps:
       - uses: actions/checkout@v4
@@ -148,7 +148,7 @@ fleet-joins:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
   variables:
     GIT_DEPTH: "0"                # --base reads history; a shallow clone may not hold the base commit
-    LOAM: "@ybotok/loam@0.2.0-alpha.18"
+    LOAM: "@ybotok/loam@0.2.0-alpha.19"
   script:
     - npx -y "$LOAM" validate --all --spine
     - npx -y "$LOAM" diff --base "$CI_MERGE_REQUEST_DIFF_BASE_SHA"
@@ -178,7 +178,7 @@ jobs:
   docs:
     runs-on: ubuntu-latest
     env:
-      LOAM: "@ybotok/loam@0.2.0-alpha.18"   # the docs repo's pin: move them together
+      LOAM: "@ybotok/loam@0.2.0-alpha.19"   # the docs repo's pin: move them together
       SERVICE: payment-service              # this repo's "service" in its loam.json
     steps:
       # Both repositories as siblings under the workspace, the way a laptop holds
@@ -271,7 +271,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with: { node-version: 22 }
-      - run: npm install -g @ybotok/loam@0.2.0-alpha.18
+      - run: npm install -g @ybotok/loam@0.2.0-alpha.19
       # "../docs" is outside the workspace, so git clone rather than actions/checkout;
       # the second command takes the token back out of the clone's config
       - run: |
@@ -287,7 +287,7 @@ environment's package versions, and spell the target from the repository root, b
 script starts is not documented:
 
 ```bash
-npm install -g @ybotok/loam@0.2.0-alpha.18
+npm install -g @ybotok/loam@0.2.0-alpha.19
 DOCS="$(git rev-parse --show-toplevel)/../docs"
 git clone --depth 1 "https://x-access-token:${LOAM_DOCS_READ_TOKEN}@github.com/acme/docs.git" "$DOCS"
 git -C "$DOCS" remote set-url origin https://github.com/acme/docs.git

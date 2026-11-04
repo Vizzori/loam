@@ -10,6 +10,49 @@ case for a change — the alternative that was rejected, the defect it came from
 generalises — lives where it is maintained: [SCHEMA.md](SCHEMA.md) for the rule,
 [ROADMAP.md](ROADMAP.md) for the priority and its exit criteria, and the commit that landed it._
 
+## [0.2.0-alpha.19] - 2026-11-04
+
+Everything on `main` since `0.2.0-alpha.18`. Still a prerelease on the `alpha` line. When this
+version was cut, `alpha` named `0.2.0-alpha.16` and `latest` named `0.2.0-alpha.14`; alpha.17 was
+never tagged, and alpha.18 was tagged with its publish not yet approved. So a repository upgrading
+from alpha.16 takes alpha.17's and alpha.18's sections as well as this one, and one on `latest`
+takes alpha.15's and alpha.16's too. `npm view @ybotok/loam dist-tags` is the record of what
+installs.
+
+A fleet can now be checked before anyone adopts a service: `fleet.yaml` states the operations and
+messages that cross between services, and `loam validate --spine` grades those joins against the
+contracts at both ends. Beside it, the release is about what loam no longer lets pass in silence: a
+scenario that lost part of its test on the way to Gherkin, a generated `.feature` file edited by
+hand, an attestation recorded over uncommitted changes, a fleet of draft services reading as clean,
+and a feature that merges nothing. A vouch no longer goes stale over line endings, a fresh vouch
+stays green, the briefs label text quoted from the docs repo as data, and README is a front page
+whose CI recipes moved to CI.md.
+
+Several things move after upgrading. `loam archive` exits 1 with `not-coherent` on a feature whose
+every axis is empty, where it merged nothing at exit 0; `--approve` overrides it. `loam validate
+--strict` exits 1 on a spec or feature it passed before when it holds a shape the new warnings name:
+`requirements.examples-malformed`, `requirements.argument-stranded`,
+`requirements.description-keyword`, `gherkin.edited`, `delta.no-requirements` or
+`delta.changes-nothing`. A fleet with an unvouched, complete service ends `next[]` on
+`next.fleet-gate` instead of `next.fleet-clean`. A CI step that re-seeds and requires a clean tree
+fails once on a map seeded earlier, because the first re-seed rewrites its header comment; commit
+the rewritten map in the PR that moves the pinned version. A loam older than this release refuses
+`fleet.yaml`'s new forms and `--spine`, so move every pinned version together. `sources.unwalked`
+and `sources.walked` arrive once per service instead of once per document, the `scorecard` key's
+`c4` `covered` reads higher on most fleets, and a link into one of README's old sections lands at
+the top of the page.
+
+Eight stable codes were added — `delta.changes-nothing`, `delta.no-requirements`, `gherkin.edited`,
+`next.vouch`, `requirements.argument-stranded`, `requirements.description-keyword`,
+`requirements.examples-malformed` and `verify.uncommitted-changes`, 374 in all, counted with
+`loam explain --codes --json` — and none was renamed or retired; `ErrorCode` has the same members
+as alpha.18's. One flag was added, `loam validate --spine`, and no command. The payload keys added
+are `keywordLines` on `loam gherkin --json`'s files, `joins` on `loam seed --json`, `lens` on
+`loam validate --json` under `--spine`, `dirty` and `uncommitted` on a federated attestation,
+`uncommitted` on `loam gate --json`'s `features[]` and `loam status --json`'s `verification`, and
+`empty` on `loam status --json`'s artifact rows. `fleet.yaml` gains `publishes` and `consumes`, and
+a `calls:` entry may name operations.
+
 ### Fixed — a scenario no longer loses part of its test without a word
 
 One finding code was added, a warning: `requirements.description-keyword`. One payload key was
@@ -17,7 +60,7 @@ added: `keywordLines` on each written or replaced file of `loam gherkin --json`,
 `{ scenario?, line }`. No flag was added. Two existing warnings, `requirements.examples-malformed`
 and `requirements.argument-stranded`, now fire on more shapes, so **`loam validate --strict` now
 exits 1 on a spec it passed before** when it holds any shape below; without `--strict` no exit
-code changed. The first three were found converting a 460-scenario component-test corpus into spec
+code changed. The first three were found converting a large component-test corpus into spec
 scenarios; wrapped steps are also in a pilot fleet's hand-written living specs, and were in 43
 steps of loam's own `meta/docs`, now rejoined.
 
@@ -82,7 +125,7 @@ No code, flag or payload key was added, changed or retired.
 One flag was added, `loam validate --spine`, and two payload keys: `joins` on `loam seed --json`
 and `lens` on `loam validate --json`, present only under `--spine`. `fleet.yaml` accepts two new
 top-level keys, `publishes` and `consumes`, and a `calls:` entry may now name operations. No stable
-code was added, renamed or retired, and `ErrorCode` is byte-identical to alpha.18.
+code was added, renamed or retired, and `ErrorCode` has the same members as alpha.18's.
 
 - **fleet.yaml states the joins.** A `calls:` entry may name the operation the caller uses —
   `- checkout-web -> order-service: createOrder`, or a list, `[createOrder, getOrder]`. Two new
@@ -180,9 +223,8 @@ digest recipes say how.
 
 ### Fixed — `loam verify --service` says when it attests a commit that is not the tested code
 
-One code was added, `verify.uncommitted-changes` (warn) — 367, counted with
-`loam explain --codes --json` — and two keys on a federated record's attestation, `dirty` and
-`uncommitted`, which also ride `verify --json`'s `attestations`; `loam gate --json`'s `features[]`
+One code was added, `verify.uncommitted-changes` (warn), and two keys on a federated record's
+attestation, `dirty` and `uncommitted`, which also ride `verify --json`'s `attestations`; `loam gate --json`'s `features[]`
 rows and `loam status --json`'s `verification` gain `uncommitted`. No flag was added, and nothing
 that recorded before refuses now.
 

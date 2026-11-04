@@ -69,7 +69,7 @@ loam --version
 
 Per repository instead: `npm i -D @ybotok/loam`, then `npx loam …`.
 
-> **Pre-release: `0.2.0-alpha.18`** is the version this checkout's `package.json` names. Whether npm
+> **Pre-release: `0.2.0-alpha.19`** is the version this checkout's `package.json` names. Whether npm
 > serves it is not something this file can know, so **the npm dist-tags are the source of truth**:
 > `npm view @ybotok/loam dist-tags` prints them, and `npm i @ybotok/loam@alpha` installs the newest
 > prerelease that published.
@@ -117,7 +117,7 @@ you already have.
   neighbouring specialist rather than a rival.
 - [MIGRATING-from-OpenSpec.md](MIGRATING-from-OpenSpec.md) — moving an OpenSpec repo onto loam.
 - [ROADMAP.md](ROADMAP.md) — priorities, non-goals and known limits.
-- [CHANGELOG.md](CHANGELOG.md) — released beta.1–alpha.18 plus the changes on `main` under
+- [CHANGELOG.md](CHANGELOG.md) — released beta.1–alpha.19 plus the changes on `main` under
   `[Unreleased]`.
 - [docs/BENCHMARKS.md](https://github.com/ybotok/loam/blob/main/docs/BENCHMARKS.md) — what a
   fleet-sized run costs, and what each payload loam hands an agent weighs.
