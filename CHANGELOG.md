@@ -10,6 +10,16 @@ case for a change — the alternative that was rejected, the defect it came from
 generalises — lives where it is maintained: [SCHEMA.md](SCHEMA.md) for the rule,
 [ROADMAP.md](ROADMAP.md) for the priority and its exit criteria, and the commit that landed it._
 
+## [0.2.0-alpha.20] - 2026-11-04
+
+Everything on `main` since `0.2.0-alpha.19`, none of it in the CLI's behaviour: the docs and comments
+now give results as ratios, and one repository script counts the same on macOS. Still a prerelease on
+the `alpha` line. When this version was cut, `alpha` named `0.2.0-alpha.16` and `latest` named
+`0.2.0-alpha.14`; alpha.17 was never tagged, and alpha.18 and alpha.19 were tagged with their publish
+not yet approved. So a repository upgrading from alpha.16 takes alpha.17's, alpha.18's and alpha.19's
+sections as well as this one, and one on `latest` takes alpha.15's and alpha.16's too.
+`npm view @ybotok/loam dist-tags` is the record of what installs.
+
 ### Changed — the docs state ratios, not figures measured on a real fleet
 
 - CHANGELOG, ROADMAP, docs/BENCHMARKS.md, code comments and test comments now give what a change did
