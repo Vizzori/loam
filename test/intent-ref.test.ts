@@ -3,11 +3,11 @@
  *
  * The defect it closes was measured on a pilot fleet (2026-10-28): every brief
  * inlined the feature's whole intent.md, so `loam tasks <FEAT> --next --json`
- * handed a worker 219,823 bytes for a unit of about 300, 215,691 of them the
- * verbatim intent, and the delta and context briefs carried the same 216 KB
- * again. Reproduced here with a synthetic intent of that shape — prose, two
- * dozen decisions and an open-questions table of 173 rows — because nothing
- * from that fleet may enter this repository.
+ * handed a worker hundreds of kilobytes for a unit of about 300 bytes, nearly all
+ * of them the verbatim intent, and the delta and context briefs carried the same
+ * bytes again. Reproduced here with a synthetic intent of that shape — prose, two
+ * dozen decisions and a long open-questions table — because nothing from that
+ * fleet may enter this repository.
  *
  * What is pinned, in the order an agent would be damaged by getting it wrong:
  * that the default form is untouched (the verbatim `intent` is frozen contract);
@@ -27,7 +27,7 @@ import { intentReference } from "../src/core/document/intent/reference.js";
 const INTENT_PATH = "features/FEAT-1-split/intent.md";
 
 /**
- * An intent.md of roughly the pilot's size and shape: a Why, twenty-five
+ * An intent.md of a large feature's shape: a Why, twenty-five
  * decisions under their own headings, and 173 open questions in the table the
  * authoring page asks for — every fifth naming payment-split-service, every
  * seventh payment-service, the rest naming no service at all.

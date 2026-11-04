@@ -215,7 +215,7 @@ A hand-drawn inside view therefore hides exactly the coupling it is drawn to sho
 **What it cannot see**, said in the generated file's header rather than guessed around: coupling drawn
 only as an edge to a broker element, with no message key and no topic element. A broker in the
 middle says that two services share infrastructure, not that one depends on the other. The pilot
-draws most of its events that way — 4 of its 876 map edges carry a message key — so its inside
+draws most of its events that way — only a handful of its map edges carry a message key — so its inside
 view shows few async edges until its map names its messages or draws its topics.
 
 **Rejected, each with its reason.**

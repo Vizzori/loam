@@ -4,15 +4,14 @@
  *
  * That fixture stresses the number of documents: 120 services, each a tiny
  * STANDALONE model, around a one-line-per-service landscape. A pilot fleet
- * audited on 2026-10-28 measured `validate --all` at 56 s and
- * `validate --feature` at 27 s against that fixture's ~0.7 s, and its shape was
- * the opposite one: few, mostly empty, EXTENDING models around a map of
+ * audited on 2026-10-28 was far slower than that fixture's ~0.7 s, and its shape
+ * was the opposite one: few, mostly empty, EXTENDING models around a map of
  * thousands of lines. An extending model is read inside a project of its own —
  * the whole `architecture/` project plus that one model — so the map is parsed
  * once per service, and nothing in the old fixture could see what that costs.
  *
- * Nothing here comes from that fleet but its counts; every name is generated
- * (`d<n>`, `a<n>`, `svc<n>`, `x<n>`). The counts are the ones it reported:
+ * Every name is generated (`d<n>`, `a<n>`, `svc<n>`, `x<n>`), and the counts are
+ * this fixture's own:
  * an ~8k-line landscape with 110 systems (78 of them services), 40 stores, 86
  * groups, 876 edges over 8 relationship kinds and 50 tags, 92 views; 78
  * extending models, most of them comment-only; 18 subsystems; a hand-written
@@ -346,7 +345,7 @@ owner: fleet-team
 
 # ${MAP_HEAVY_FEATURE}
 
-Let ${shape.featureServices} services each call one new operation, so the generated fleet carries a feature as wide as the pilot's.
+Let ${shape.featureServices} services each call one new operation, so the generated fleet carries a wide feature.
 `,
     [`${dir}/delta.likec4`]: delta(shape, pairs),
   };

@@ -15,8 +15,7 @@
  * `--fixture map-heavy` measures the OTHER shape instead: the generated fleet
  * of test/helpers/map-heavy-fixture.ts, whose weight is in an ~8k-line map and
  * whose 78 models extend it (most of them comment-only) — the shape a pilot
- * fleet measured at 56 s for `validate --all` while the default fixture
- * answered in under a second. Its generated views are written once by the
+ * fleet was slow on while the default fixture answered in under a second. Its generated views are written once by the
  * CLI's own `subsystem sync` before anything is timed.
  *
  * Run it via `npm run bench:validate` after `npm run build`. Nothing here is a
@@ -205,7 +204,7 @@ function benchmarkFixture(): Fixture {
   };
 }
 
-/** The pilot-shaped fleet (see the banner); its counts are test/helpers/map-heavy-fixture.ts's `MAP_HEAVY_SHAPE`. */
+/** The map-heavy fleet (see the banner); its counts are test/helpers/map-heavy-fixture.ts's `MAP_HEAVY_SHAPE`. */
 function mapHeavyFixture(): Fixture {
   const shape = MAP_HEAVY_SHAPE;
   const files = mapHeavyFiles(shape);

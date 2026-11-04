@@ -9,8 +9,8 @@
  *
  * The second is the cost itself, counted rather than timed. A wall-clock bound
  * in the parallel suite measures the host (`test/scale.test.ts` says why), but
- * the parse count is the mechanism: on a pilot fleet's shape, one parse of an
- * ~8k-line map per comment-only model was most of a 56-second `validate --all`
+ * the parse count is the mechanism: on this shape, one parse of a map of
+ * thousands of lines per comment-only model was most of a slow `validate --all`
  * (docs/BENCHMARKS.md). Those models now share one parse, and a change that
  * quietly brought the per-model copies back fails here.
  */
@@ -22,7 +22,7 @@ import { serviceDirOf } from "../src/core/kernel/ids/dirs.js";
 import { MAP_HEAVY_FEATURE, mapHeavyFiles, mapHeavyServiceDir, type MapHeavyShape } from "./helpers/map-heavy-fixture.js";
 import { makeProject, runLoam, type Project } from "./helpers/harness.js";
 
-/** The pilot's proportions, scaled to a dozen services. */
+/** The fixture's proportions, scaled to a dozen services. */
 const SHAPE: MapHeavyShape = {
   subsystems: 3,
   services: 12,

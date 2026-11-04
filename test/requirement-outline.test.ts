@@ -4,8 +4,8 @@
  *
  * The defect they close was measured on a pilot fleet (2026-10-29): with
  * `--intent-ref` already on, `loam delta <FEAT> --service <svc> --json` handed
- * one service's implementer 434,889 bytes, 334 KB of them the text and
- * Given/When/Then lines of 23 requirements, and `loam context` — the step
+ * one service's implementer hundreds of kilobytes, most of them the text and
+ * Given/When/Then lines of its requirements, and `loam context` — the step
  * before it in the implement protocol — carried the same requirements again.
  * Reproduced here on small documents, because nothing from that fleet may enter
  * this repository and the property is not about size: an outline must say

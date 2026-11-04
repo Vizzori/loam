@@ -6,11 +6,11 @@
  * `loam context` — each inlined the whole intent verbatim, and the intent is the
  * one document in a feature that grows without bound: the analyze step writes
  * every decision and every open question into it. Measured on a pilot fleet
- * (2026-10-28), `loam tasks <FEAT> --next --json` handed a worker 219,823 bytes
- * for a unit of about 300, and 215,691 of them were intent.md. That agent ran a
+ * (2026-10-28), `loam tasks <FEAT> --next --json` handed a worker hundreds of
+ * kilobytes for a unit of about 300 bytes, nearly all of them intent.md. That agent ran a
  * local model with a ~50k-token context, so the brief did not fit at all — and
  * the implement loop re-runs `loam tasks` after every recording, paying the
- * same 216 KB each time for words the worker had already read.
+ * same kilobytes each time for words the worker had already read.
  *
  * The reference is what `--intent-ref` puts in place of the text. It is enough
  * to read the file ONCE and to know when to read it again: `sha256` is over the
@@ -22,8 +22,8 @@
  * and the part `loam delta` already counted for the same reason.
  *
  * The questions go BY LINE, not verbatim. They were verbatim at first, and on
- * the same pilot one service was named by 47 of 173 rows — 34 KB that `loam
- * tasks --next` handed the worker again after every recording, beside a unit
+ * the same pilot one service was named by about a quarter of a long table —
+ * tens of kilobytes that `loam tasks --next` handed the worker again after every recording, beside a unit
  * of 300 bytes: the waste the reference exists to end, moved one key down.
  * The worker reads the file once anyway, and a line is where it reads them.
  *

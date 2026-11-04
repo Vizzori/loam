@@ -6,10 +6,10 @@
  * then has to open. The outline is what `--outline` asks for instead, and it
  * exists because the verbatim form does not fit. Measured on a pilot fleet
  * (2026-10-29): `loam delta <FEAT> --service <svc> --json --intent-ref` handed
- * the implementer of one service 434,889 bytes, of which the text and the
- * Given/When/Then lines of 23 requirements were 334 KB — a median requirement of
- * 14 KB, the largest 39 KB — and `loam context <svc> --feature <FEAT>`, the step
- * before it, carried the same requirements again. An agent with a ~50k-token
+ * the implementer of one service hundreds of kilobytes, most of them the text
+ * and Given/When/Then lines of its requirements, and
+ * `loam context <svc> --feature <FEAT>`, the step before it, carried the same
+ * requirements again. An agent with a ~50k-token
  * context could read neither, so it read nothing.
  *
  * The outline keeps every key that says what a requirement TOUCHES — its id,

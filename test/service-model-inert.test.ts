@@ -5,8 +5,8 @@
  * An extending model is read inside a project of its own: every
  * `architecture/` document plus that one file. On a fleet whose map is
  * thousands of lines and whose models are mostly comment-only placeholders,
- * those per-service copies of the map were most of a `validate --all` (a pilot
- * fleet: 56 s, docs/BENCHMARKS.md). A placeholder adds nothing to its project,
+ * those per-service copies of the map were most of a `validate --all`
+ * (docs/BENCHMARKS.md). A placeholder adds nothing to its project,
  * so all of them now share one parse of the architecture documents.
  *
  * The claim that makes that safe is pinned here directly rather than through a

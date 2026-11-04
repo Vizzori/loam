@@ -101,7 +101,9 @@ async function capture(args: readonly string[], fleet: string): Promise<Captured
 /** The brief's absolute path, in every spelling it can appear in (raw, and JSON-escaped on Windows). */
 function normalised(stdout: string, fleet: string): string {
   let out = stdout;
-  for (const dir of new Set([fleet, realpathSync(fleet)])) {
+  // The real path first: on macOS `/var/folders/…` is a suffix of its real
+  // `/private/var/folders/…`, so the other order leaves `/private` in the count.
+  for (const dir of new Set([realpathSync(fleet), fleet])) {
     out = out.split(JSON.stringify(dir).slice(1, -1)).join(DOCS_PLACEHOLDER).split(dir).join(DOCS_PLACEHOLDER);
   }
   return out;

@@ -118,9 +118,9 @@ export async function readModelShapes(paths: readonly string[]): Promise<Map<str
  *
  * It is the common case, not a corner: the adopt brief scaffolds a service's
  * model as a comment until somebody draws its interior, and a pilot fleet
- * measured on 2026-10-28 carried 78 extending models, most of them exactly that.
+ * measured on 2026-10-28 carried dozens of extending models, most of them exactly that.
  * Each one cost a full parse and link of a map of thousands of lines — the bulk
- * of a 56-second `validate --all` (docs/BENCHMARKS.md, "A fleet whose weight is
+ * of a slow `validate --all` (docs/BENCHMARKS.md, "A fleet whose weight is
  * in the map").
  *
  * Over MASKED source, as `modelShape` reads it, so a declaration written in a
