@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/ybotok/loam/main/docs/assets/loam-logo.png" alt="loam logo: a seedling whose leaves are diagram nodes, rooted in layered soil" width="128" align="right">
+<img src="https://raw.githubusercontent.com/Vizzori/loam/main/docs/assets/loam-logo.png" alt="loam logo: a seedling whose leaves are diagram nodes, rooted in layered soil" width="128" align="right">
 
 # loam
 
@@ -7,7 +7,7 @@ plain files, checked by a CLI to still agree. Your agent writes them; loam check
 
 ![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)
 ![node: >=22.22.3](https://img.shields.io/badge/node-%3E%3D22.22.3-brightgreen.svg)
-[![CI](https://github.com/ybotok/loam/actions/workflows/ci.yml/badge.svg?branch=main&event=push)](https://github.com/ybotok/loam/actions/workflows/ci.yml)
+[![CI](https://github.com/Vizzori/loam/actions/workflows/ci.yml/badge.svg?branch=main&event=push)](https://github.com/Vizzori/loam/actions/workflows/ci.yml)
 [![npm](https://img.shields.io/npm/v/@ybotok/loam/alpha.svg?label=npm%20alpha)](https://www.npmjs.com/package/@ybotok/loam)
 
 With coding agents writing the code, the bottleneck has moved to context. A change that crosses
@@ -27,7 +27,7 @@ services, one modular monolith, or a mix of both — the lifecycle is the same.
 
 > **Early alpha, MIT.** Works with Claude Code, Cursor, GitHub Copilot, Codex, Gemini CLI and other
 > agent tools. If you run a fleet and try loam, or can tell why it would not fit yours,
-> [open an issue](https://github.com/ybotok/loam/issues).
+> [open an issue](https://github.com/Vizzori/loam/issues).
 
 ## How it works
 
@@ -83,7 +83,7 @@ loam init --example ./loam-demo
 cd loam-demo && loam validate --all     # 0 errors, 10 deliberate warnings
 ```
 
-[`examples/README.md`](https://github.com/ybotok/loam/blob/main/examples/README.md) is the guided
+[`examples/README.md`](https://github.com/Vizzori/loam/blob/main/examples/README.md) is the guided
 tour of what each service, feature and warning is there to show. Then try it on your own code:
 
 ```bash
@@ -111,7 +111,7 @@ you already have.
   advises, the six workflows, the agent entry points, and every command with its flags.
 - [CI.md](CI.md) — pipelines for the docs repo, each service repo, deploys and cloud agents.
 - [SCHEMA.md](SCHEMA.md) — the docs-repo layout, each artifact's grammar, and the rules behind them.
-- [docs/SERVICE-TEAMS.md](https://github.com/ybotok/loam/blob/main/docs/SERVICE-TEAMS.md) — one
+- [docs/SERVICE-TEAMS.md](https://github.com/Vizzori/loam/blob/main/docs/SERVICE-TEAMS.md) — one
   screen for a team whose repository is one service in the fleet.
 - [COMPARISON.md](COMPARISON.md) — where loam fits beside the tools around it, each treated as a
   neighbouring specialist rather than a rival.
@@ -119,7 +119,7 @@ you already have.
 - [ROADMAP.md](ROADMAP.md) — priorities, non-goals and known limits.
 - [CHANGELOG.md](CHANGELOG.md) — released beta.1–alpha.20 plus the changes on `main` under
   `[Unreleased]`.
-- [docs/BENCHMARKS.md](https://github.com/ybotok/loam/blob/main/docs/BENCHMARKS.md) — what a
+- [docs/BENCHMARKS.md](https://github.com/Vizzori/loam/blob/main/docs/BENCHMARKS.md) — what a
   fleet-sized run costs, and what each payload loam hands an agent weighs.
 
 ## Contributing
@@ -130,7 +130,7 @@ full gate and what a reviewable change looks like.
 ## Security
 
 Do not put vulnerability details in a public issue. Report privately through
-[GitHub Private Vulnerability Reporting](https://github.com/ybotok/loam/security/advisories/new);
+[GitHub Private Vulnerability Reporting](https://github.com/Vizzori/loam/security/advisories/new);
 [SECURITY.md](SECURITY.md) says what to include and what to leave out.
 
 ## License

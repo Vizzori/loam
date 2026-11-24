@@ -10,6 +10,21 @@ case for a change — the alternative that was rejected, the defect it came from
 generalises — lives where it is maintained: [SCHEMA.md](SCHEMA.md) for the rule,
 [ROADMAP.md](ROADMAP.md) for the priority and its exit criteria, and the commit that landed it._
 
+### Changed — the repository moved to `Vizzori/loam`
+
+- The GitHub repository moved from `ybotok/loam` to
+  [`Vizzori/loam`](https://github.com/Vizzori/loam) on 2026-11-24. The `repository`, `homepage`
+  and `bugs` URLs in `package.json` name it, and so do README's logo, CI badge and links,
+  the links in the shipped pages, and the `README.md` that `loam init` writes into a new docs repo.
+  A version published from here carries npm provenance naming `Vizzori/loam`. The released sections
+  below keep the old URLs as written, and GitHub redirects them. The npm package is still
+  `@ybotok/loam`, `mcpName` is still `io.github.ybotok/loam`, and no stable code, command, flag or
+  payload key changed.
+- `scripts/package-docs.mjs` takes `https://github.com/Vizzori/loam/(blob|tree)/main/<path>` as the
+  canonical link form, the one whose path it checks exists; a link that still names `ybotok/loam`
+  is external to it and goes unchecked. `docs/RELEASE-READINESS.md` names the owner and repository
+  the npm trusted publisher must match (repository tooling and docs, not shipped).
+
 ## [0.2.0-alpha.20] - 2026-11-04
 
 Everything on `main` since `0.2.0-alpha.19`, none of it in the CLI's behaviour: the docs and comments

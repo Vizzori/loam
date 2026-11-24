@@ -6,11 +6,11 @@
   "author": "spentsov",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ybotok/loam.git"
+    "url": "git+https://github.com/Vizzori/loam.git"
   },
-  "homepage": "https://github.com/ybotok/loam#readme",
+  "homepage": "https://github.com/Vizzori/loam#readme",
   "bugs": {
-    "url": "https://github.com/ybotok/loam/issues"
+    "url": "https://github.com/Vizzori/loam/issues"
   },
   "keywords": [
     "architecture",

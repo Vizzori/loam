@@ -133,7 +133,7 @@ no fleet manifest, deliberately — the wiring is one file per repo, and it is r
    `a -> b` with the operations the caller uses (`a -> b: createOrder`, or a list), and the
    messages under `publishes:` (`producer -> broker: message`) and `consumes:`
    (`broker -> consumer: message`) — nothing else;
-   [`examples/fleet.yaml`](https://github.com/ybotok/loam/blob/main/examples/fleet.yaml) is a
+   [`examples/fleet.yaml`](https://github.com/Vizzori/loam/blob/main/examples/fleet.yaml) is a
    real one for the five-service example fleet. Seed templates `architecture/landscape.likec4` —
    one edge per stated operation or message — and one `services/<id>/` directory per entry, in one
    journaled transaction, and guesses nothing: a human stated every fact in the file, which is what
@@ -577,7 +577,7 @@ affordable to load: `loam instructions loam-check` prints its page with the per-
 collapsed to a line each — from a page that is almost all tables down to a few kilobytes, with
 `--fix-tables` for the whole of it — and `loam explain <code> --json` answers, one code at a time, whichever two or three of
 those rows a run actually reported. What each of those costs in bytes and tokens, page by page, is
-[docs/BENCHMARKS.md](https://github.com/ybotok/loam/blob/main/docs/BENCHMARKS.md)'s payload table,
+[docs/BENCHMARKS.md](https://github.com/Vizzori/loam/blob/main/docs/BENCHMARKS.md)'s payload table,
 generated from the tree rather than typed. A copy frozen into the generated file would have charged
 the whole page every session, and gone stale doing it. `AGENTS.md` itself was the one generated file that argument did
 not reach — it was the process contract *and* the reference manual, and every session paid for all
@@ -757,7 +757,7 @@ Documentation existing and documentation being *believed* are different facts, a
 let one read as the other.
 
 Most of this category will tell you what it checks. loam ships the other list too, in the binary:
-**[`src/core/brief/unchecked.ts`](https://github.com/ybotok/loam/blob/main/src/core/brief/unchecked.ts)
+**[`src/core/brief/unchecked.ts`](https://github.com/Vizzori/loam/blob/main/src/core/brief/unchecked.ts)
 is seventeen statements of what no check will ever tell you**, printed into the adoption brief beside
 the checks that do run. It says, in loam's own words, that nothing here knows whether the model is
 the architecture the code actually has, whether a requirement is *true*, whether an `operationId` is
@@ -883,7 +883,7 @@ Every command takes `--json`; findings carry stable codes (`c4.valid`, `spine.op
 | `loam show <service\|FEAT>` | `--type <kind>` | Everything loam knows about one service or feature. A feature's JSON includes a semantic `review` pack: intent, exact architecture objects, API/event slices, dependencies, artifacts, verification, blockers and next actions. `--type` forces an ambiguous reading |
 | `loam subsystem <verb> [names...]` | `--into <name>` `--under <name>` `--title <text>` `--description <text>` `--owner <name>` | Manage the grouping tree under `services/` — a navigable tree no identity depends on. `new`/`rm`, `move … --into`, `rename`, `list`, `history`, `sync` |
 | `loam views` | | Write the generated views under `architecture/`: the platform's context and inside views (`platform.likec4`, with the inside view's event edges derived from the spine), one view per subsystem and one overview per service. The same run as `loam subsystem sync`, under the name of what it writes |
-| `loam adopt` | `--service <id>` `--subsystem <name>` `--targets` | Brief an agent to write this service's baseline into the docs repo as `draft`: the target paths, the grammar of each, what the landscape already says — and, for an element no edge touches, the edges the service's own model.likec4 attests — and the checks that follow. Writes nothing. `--targets` narrows it to what varies by service, and a `full` field names the one run that carries the rest — the half that is the same bytes for every service ([its note](#command-notes)). Both sizes, for the example fleet's payment-service, are in the payload table of [docs/BENCHMARKS.md](https://github.com/ybotok/loam/blob/main/docs/BENCHMARKS.md#what-an-agent-is-handed--payload-sizes), which a test regenerates from the tree |
+| `loam adopt` | `--service <id>` `--subsystem <name>` `--targets` | Brief an agent to write this service's baseline into the docs repo as `draft`: the target paths, the grammar of each, what the landscape already says — and, for an element no edge touches, the edges the service's own model.likec4 attests — and the checks that follow. Writes nothing. `--targets` narrows it to what varies by service, and a `full` field names the one run that carries the rest — the half that is the same bytes for every service ([its note](#command-notes)). Both sizes, for the example fleet's payment-service, are in the payload table of [docs/BENCHMARKS.md](https://github.com/Vizzori/loam/blob/main/docs/BENCHMARKS.md#what-an-agent-is-handed--payload-sizes), which a test regenerates from the tree |
 | `loam delta <FEAT>` | `--service <id>` `--diff` `--intent-ref` `--outline` `--requirement <id>` | Project a feature onto one service: the intent, its requirement deltas with every body and Given/When/Then line verbatim, the endpoints it adds or retires, and the edges around it. Doubles as a coding-agent task. `--diff` is the review view: each requirement, operation and message says whether it is new, a quote of the living text, an edit or a removal, and an edit or removal comes with its changed lines. `--intent-ref` carries the intent by reference — path, sha256, size, outline and the lines of the open questions naming the service — for an agent whose context the whole `intent.md` would not fit. `--outline` does the same for the requirements — each one's id, joins, scenario names and digests, and the path and lines it sits at — and `--requirement <id>` (repeatable) carries only the named ones, verbatim |
 | `loam tasks <FEAT>` | `--service <id>` `--next` `--intent-ref` | The same checklist `loam verify` grades, read forwards: one work unit per promise the feature makes, each carrying the step it waits on (`describe`, `generate`, `implement`, `attested`) and the fact that closes it — only a confirmed claim in a non-stale verification record retires one, and an attested scenario stays visible. Derived every run and writes nothing. `--service` is a pure lens that adds what this service is waiting on elsewhere, and in a service repository it defaults to that service when the feature touches it; the frontier orders providers before consumers as advice, never a lock. The per-unit work packet, and `--next` is the single leaf packet an orchestrator hands a coding agent. `--intent-ref` carries the feature's `intent.md` by reference instead of verbatim, so the leaf is the size of the unit rather than of the intent |
 | `loam gherkin [<FEAT>]` | `--service <id>` `--dry-run` | Emit spec scenarios as digest-stamped Gherkin `.feature` files into the service repo's `<gherkinDir>/loam/` |

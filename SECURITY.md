@@ -8,14 +8,14 @@ backport.
 
 Do not disclose a suspected vulnerability in a public issue, pull request, or discussion. Report it
 privately through **GitHub Private Vulnerability Reporting**, which is enabled for this repository:
-[open a private report](https://github.com/ybotok/loam/security/advisories/new), or reach the same
+[open a private report](https://github.com/Vizzori/loam/security/advisories/new), or reach the same
 form from the repository's **Security** tab under **Advisories**. The report stays visible to you
 and the maintainers alone until an advisory is published, so details belong in it rather than in a
 public request for contact.
 
 Include the affected Loam version, the impact, a minimal reduced reproduction, and any known
 workaround. Leave out credentials, customer data, and proprietary fleet documents: a reduction
-against [`examples/docs`](https://github.com/ybotok/loam/tree/main/examples/docs) is worth more
+against [`examples/docs`](https://github.com/Vizzori/loam/tree/main/examples/docs) is worth more
 than a real fleet's files, and is the one form of evidence nobody has to redact afterwards.
 
 The private form is the only route that is private. A GitHub issue, pull request or discussion is

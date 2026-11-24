@@ -299,7 +299,7 @@ measure that: the same request a person would type, run headless in a scratch co
 `examples/docs`, once with the agent surface `loam init` lays down for Claude Code and once with
 `AGENTS.md` alone. Each run is graded on its tool calls and the files it left, never on what it said.
 The scenarios and their traps are in
-[scripts/evals/README.md](https://github.com/ybotok/loam/blob/main/scripts/evals/README.md):
+[scripts/evals/README.md](https://github.com/Vizzori/loam/blob/main/scripts/evals/README.md):
 - adopt a service from its code without vouching;
 - write open questions for a feature that contradicts a living rule;
 - leave generated Gherkin alone;

@@ -2,7 +2,7 @@
 
 This documents the layout of the **docs repo** — the single shared source of truth for the governed
 system that `loam` reads and writes. A runnable distributed example lives in the repository under
-[`examples/docs/`](https://github.com/ybotok/loam/tree/main/examples/docs).
+[`examples/docs/`](https://github.com/Vizzori/loam/tree/main/examples/docs).
 
 Everything here is plain files. `loam` derives **projections** and indexes from them; delete `loam`
 and the docs remain.
@@ -1933,7 +1933,7 @@ their files changing.
 **Draw the topic, not the broker.** An edge may point wherever it likes and every check joins the
 same way — an endpoint inside a nested element resolves to the element that owns it — so this is a
 modelling convention rather than a rule loam enforces, and it is on the
-[unchecked list](https://github.com/ybotok/loam/blob/main/src/core/brief/unchecked.ts) with the
+[unchecked list](https://github.com/Vizzori/loam/blob/main/src/core/brief/unchecked.ts) with the
 reason spelled out. It matters anyway because it is the one modelling mistake whose cost is
 invisible until it is expensive: a broker drawn as ONE element is the node every service in the
 fleet points at, so a fleet map that read fine at five services is a star with sixty spokes at
@@ -1944,7 +1944,7 @@ is the channel, never the server. Declare the kind with the tag on it —
 `element topic { #external }` — because LikeC4 does not inherit tags, and an untagged topic under an
 `#external` broker is a `landscape.service-undocumented` asking for a `services/` directory nobody
 owes. The
-[worked landscape](https://github.com/ybotok/loam/blob/main/examples/docs/architecture/landscape.likec4)
+[worked landscape](https://github.com/Vizzori/loam/blob/main/examples/docs/architecture/landscape.likec4)
 includes three views (`exclude element.tag = #external` for the synchronous map, one for the event
 spine, one over `#platform`) that keep the picture readable once the model is. It also puts
 `#platform` on the topic KIND rather than on `kafka` alone, which is what the split makes necessary:
@@ -3214,7 +3214,7 @@ Serializing drops `## Purpose` and the `## Requirements` wrapper, both of which 
 requires — so loam output is not OpenSpec input, and pretending otherwise would corrupt someone's
 repo politely. [MIGRATING-from-OpenSpec.md](MIGRATING-from-OpenSpec.md) has the full account, with
 the evidence pinned in the
-[compatibility test](https://github.com/ybotok/loam/blob/main/test/openspec-compat.test.ts).
+[compatibility test](https://github.com/Vizzori/loam/blob/main/test/openspec-compat.test.ts).
 
 ### How archive writes, and how unarchive undoes it
 

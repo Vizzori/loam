@@ -100,7 +100,7 @@ describe("working-tree link integrity for the shipped pages", () => {
     // file inside the shipped example tree), anchors must slug-match exactly
     // one heading in the shipped target (including the WORKFLOW.md →
     // SCHEMA.md#canonical-joins cross-file case), and canonical
-    // github.com/ybotok/loam blob|tree/main links must name paths that exist —
+    // github.com/Vizzori/loam blob|tree/main links must name paths that exist —
     // the "intentionally canonical" escape hatch is checked, not trusted.
     //
     // Targets are resolved against the page's own directory, which is what

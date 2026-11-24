@@ -220,7 +220,7 @@ try {
   }
   // Then every link, read from the INSTALLED package root: a relative link must
   // name a file the tarball carries, an anchor must slug-match a heading in the
-  // shipped target, and a canonical github.com/ybotok/loam link must name a
+  // shipped target, and a canonical github.com/Vizzori/loam link must name a
   // path that exists in this repository — proving "intentionally canonical" is
   // not a euphemism for rotten. Other absolute URLs are allowed and never
   // fetched; no network is added beyond the npm install above.

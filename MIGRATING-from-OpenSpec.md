@@ -20,7 +20,7 @@ is measured, not inferred from a successful directory walk.
 | [v1.8.0 release](https://github.com/Fission-AI/OpenSpec/releases/tag/v1.8.0) | `d57889664cab4f2f061d236ec3ff82a5578701bb`, released 2026-08-05 | Audit inventories or preserves modern planning roots, Stores, nested capability paths, config context/rules/references, custom schemas/templates, per-change metadata, `skip_specs`, `RENAMED`, and authored artifacts. | **Inventoried, and superseded.** No v1.8 exact-release sweep of its own runs; the shapes v1.8 introduced are carried by the v1.9.0 and v1.14.1 corpora. |
 | [v1.7.0 release](https://github.com/Fission-AI/OpenSpec/releases/tag/v1.7.0) | `4e16790d90d8f54d4773ad9a5e71a57cd9f1e86b` | An older certified corpus, still swept file by file. | **Regression pin**, for the same reason. |
 | Historical post-v1.7 `main` canary | `45cca5db6137ed209117cc70510eb3e057fb981b` | A further exact living + active + archived parser corpus. | **Regression pin only.** It is not a release and not a moving claim. |
-| Newest upstream release | None: the newest `vX.Y.Z` tag, resolved each week | The same sweep without a pin (`--baseline latest`), an audit of OpenSpec's own workspace, and a diff of upstream's parser sources against the certified pin, in [openspec-canary.yml](https://github.com/ybotok/loam/blob/main/.github/workflows/openspec-canary.yml). | **Early warning, never a certification.** A red canary means upstream moved; it blocks no pull request and no release. |
+| Newest upstream release | None: the newest `vX.Y.Z` tag, resolved each week | The same sweep without a pin (`--baseline latest`), an audit of OpenSpec's own workspace, and a diff of upstream's parser sources against the certified pin, in [openspec-canary.yml](https://github.com/Vizzori/loam/blob/main/.github/workflows/openspec-canary.yml). | **Early warning, never a certification.** A red canary means upstream moved; it blocks no pull request and no release. |
 
 The seven verbatim fixtures come from the v1.9.0 commit and run in routine CI. At v1.14.1 five are
 byte-identical and the other two gained only prose and scenarios of shapes the set already holds, so
@@ -28,8 +28,8 @@ the set was not re-vendored. A scheduled/manual matrix separately sweeps all fou
 across living, active, and archived spec trees: v1.14.1 223 files / 765 requirements / 2475
 scenarios; v1.9.0 211 / 746 / 2317; v1.7.0 207 / 739 / 2273; canary 209 / 742 / 2284. These test
 requirement/scenario parsing, not every workspace feature. The
-[fixture provenance, immutable upstream paths, and checksums](https://github.com/ybotok/loam/blob/main/test/fixtures/openspec/README.md)
-and the [compatibility tests](https://github.com/ybotok/loam/blob/main/test/openspec-compat.test.ts)
+[fixture provenance, immutable upstream paths, and checksums](https://github.com/Vizzori/loam/blob/main/test/fixtures/openspec/README.md)
+and the [compatibility tests](https://github.com/Vizzori/loam/blob/main/test/openspec-compat.test.ts)
 use absolute GitHub URLs because this guide is also shipped in the npm tarball while `test/` is not.
 
 **What moved between v1.9.0 and v1.14.1.** OpenSpec 1.13.0 and 1.13.1 changed the requirement

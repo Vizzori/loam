@@ -327,7 +327,7 @@ only pointers whose recorded digest still matches; a file your team edited remai
 - [WORKFLOW.md](WORKFLOW.md) explains the complete lifecycle and human/agent boundary.
 - [SCHEMA.md](SCHEMA.md) defines every docs-repo artifact and join.
 - [COMPARISON.md](COMPARISON.md) explains where loam fits beside neighboring tools.
-- [docs/SERVICE-TEAMS.md](https://github.com/ybotok/loam/blob/main/docs/SERVICE-TEAMS.md) is the
+- [docs/SERVICE-TEAMS.md](https://github.com/Vizzori/loam/blob/main/docs/SERVICE-TEAMS.md) is the
   one screen for a team whose repository is one service in a fleet.
 - [MIGRATING-from-OpenSpec.md](MIGRATING-from-OpenSpec.md) covers an OpenSpec migration.
 

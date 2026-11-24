@@ -4,7 +4,7 @@ This repository is the fleet's **source of truth**: what each service is, what i
 promises, what it exposes, and how the services fit together. It is plain files —
 Markdown, YAML and LikeC4 — reviewed like code, in pull requests.
 
-It is read and written with [**loam**](https://github.com/ybotok/loam). Delete
+It is read and written with [**loam**](https://github.com/Vizzori/loam). Delete
 loam and these documents still make sense; that is the point of keeping them this
 way.
 

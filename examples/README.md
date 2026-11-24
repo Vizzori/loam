@@ -1,7 +1,7 @@
 # The example fleet
 
 `docs/` is a complete, runnable loam docs repo. It is small enough to read in one sitting and large
-enough that every row of [SCHEMA.md](https://github.com/ybotok/loam/blob/main/SCHEMA.md)'s canonical-joins table is exercised by something
+enough that every row of [SCHEMA.md](https://github.com/Vizzori/loam/blob/main/SCHEMA.md)'s canonical-joins table is exercised by something
 — including the joins that only appear once a fleet has more than two services in it.
 
 Run it from a clone, or from the copy `loam init --example <dir>` makes — where this page is the

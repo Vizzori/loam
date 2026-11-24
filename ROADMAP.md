@@ -7,7 +7,7 @@ dates. An item is complete only when its exit criteria are supported by repeatab
 an item between sections is a product decision, not a wording change.
 
 The compatibility boundary remains the one in
-[AGENTS.md](https://github.com/ybotok/loam/blob/main/AGENTS.md): command names and flags, exit
+[AGENTS.md](https://github.com/Vizzori/loam/blob/main/AGENTS.md): command names and flags, exit
 codes, the JSON envelope, and stable finding codes are public contracts. An improvement that changes
 one of them needs an explicit compatibility decision and a user-visible CHANGELOG entry.
 
@@ -20,11 +20,11 @@ commits through a locked, journaled transaction that a crash cannot leave half-a
 
 The tree contains **584 TypeScript modules in 185 source packages**, with an acyclic package graph
 checked by
-[scripts/package-graph.mjs](https://github.com/ybotok/loam/blob/main/scripts/package-graph.mjs). The
-CLI exposes **31 commands** from [src/cli.ts](https://github.com/ybotok/loam/blob/main/src/cli.ts),
+[scripts/package-graph.mjs](https://github.com/Vizzori/loam/blob/main/scripts/package-graph.mjs). The
+CLI exposes **31 commands** from [src/cli.ts](https://github.com/Vizzori/loam/blob/main/src/cli.ts),
 and the suite stands at **228 test files**. Those four counts are deliberately stated OUTSIDE the
 dated snapshot below: each derives from the tree in one readdir, so
-[test/docs-facts.test.ts](https://github.com/ybotok/loam/blob/main/test/docs-facts.test.ts) grades
+[test/docs-facts.test.ts](https://github.com/Vizzori/loam/blob/main/test/docs-facts.test.ts) grades
 them live and this paragraph cannot quietly trail the code the way its predecessor did.
 
 _Measured 2026-09-07 at `0.2.0-alpha.7`, and dated because neither number has a cheap derivation:_
@@ -44,7 +44,7 @@ on the weekly schedule and on dispatch — so it is still release evidence to co
 gate-stress proof passes locally. The runner class recorded on 2026-08-18 is
 still the reading to apply to a red of that shape: a restricted filesystem sandbox that denies `tsx`
 its local IPC socket fails only the
-[test/cli-entry.test.ts](https://github.com/ybotok/loam/blob/main/test/cli-entry.test.ts) cases with
+[test/cli-entry.test.ts](https://github.com/Vizzori/loam/blob/main/test/cli-entry.test.ts) cases with
 `listen EPERM` — a runner restriction, not a CLI behavior failure — and a sandbox that denies tmpdir
 writes is the class under which `validate --all`'s batched parse degrades to per-document speed
 without changing a finding.
@@ -55,48 +55,48 @@ The strongest foundations to preserve are:
   network dependency. Its document contract is described in [SCHEMA.md](SCHEMA.md), and only three
   packages are runtime dependencies in [package.json](package.json).
 - **Explicit machine contracts.** The versioned JSON envelope and stable error codes live in
-  [src/core/envelope/json.ts](https://github.com/ybotok/loam/blob/main/src/core/envelope/json.ts);
+  [src/core/envelope/json.ts](https://github.com/Vizzori/loam/blob/main/src/core/envelope/json.ts);
   issue severity, archive gating, and override semantics remain separate in
-  [src/core/vocabulary/issue.ts](https://github.com/ybotok/loam/blob/main/src/core/vocabulary/issue.ts).
-  [test/codes-drift.test.ts](https://github.com/ybotok/loam/blob/main/test/codes-drift.test.ts) and
-  [test/agent-commands-runnable.test.ts](https://github.com/ybotok/loam/blob/main/test/agent-commands-runnable.test.ts)
+  [src/core/vocabulary/issue.ts](https://github.com/Vizzori/loam/blob/main/src/core/vocabulary/issue.ts).
+  [test/codes-drift.test.ts](https://github.com/Vizzori/loam/blob/main/test/codes-drift.test.ts) and
+  [test/agent-commands-runnable.test.ts](https://github.com/Vizzori/loam/blob/main/test/agent-commands-runnable.test.ts)
   protect what agents branch on and what loam tells them to run, and
-  [test/docs-facts.test.ts](https://github.com/ybotok/loam/blob/main/test/docs-facts.test.ts) plus
-  [test/package-docs.test.ts](https://github.com/ybotok/loam/blob/main/test/package-docs.test.ts)
+  [test/docs-facts.test.ts](https://github.com/Vizzori/loam/blob/main/test/docs-facts.test.ts) plus
+  [test/package-docs.test.ts](https://github.com/Vizzori/loam/blob/main/test/package-docs.test.ts)
   hold the shipped prose to the same standard: counted facts derive or carry a date, named codes are
   codes loam emits, links resolve from the tarball, and every documented gap has its owner in this
   file.
 - **One transactional write path.** Archive and unarchive keep their snapshot-backed path across
-  [src/commands/archive/run.ts](https://github.com/ybotok/loam/blob/main/src/commands/archive/run.ts)
-  and [src/core/staging/](https://github.com/ybotok/loam/tree/main/src/core/staging); every other
+  [src/commands/archive/run.ts](https://github.com/Vizzori/loam/blob/main/src/commands/archive/run.ts)
+  and [src/core/staging/](https://github.com/Vizzori/loam/tree/main/src/core/staging); every other
   multi-file writer — `new`, `gherkin`, `rebase`, `vouch`, `subsystem move` and `sync` — commits
   through the smaller journaled transaction in
-  [src/core/staging/txn/](https://github.com/ybotok/loam/tree/main/src/core/staging/txn), whose
+  [src/core/staging/txn/](https://github.com/Vizzori/loam/tree/main/src/core/staging/txn), whose
   staged bytes are durable beside their targets so recovery rolls forward, and the verification
   record commits under the same docs lock with a byte-level compare-and-swap. `validate` and
   `doctor` report an interrupted commit until recovery succeeds. This is the model for any future
   writer, not a subsystem to replace.
 - **Path, identity and provenance discipline.** Lexical and real-path containment are centralized in
-  [src/core/kernel/path-safety.ts](https://github.com/ybotok/loam/blob/main/src/core/kernel/path-safety.ts);
+  [src/core/kernel/path-safety.ts](https://github.com/Vizzori/loam/blob/main/src/core/kernel/path-safety.ts);
   validated ids and directories carry branded types constructible only in
-  [src/core/kernel/ids/](https://github.com/ybotok/loam/tree/main/src/core/kernel/ids) and consumed
-  through [src/core/repo/paths.ts](https://github.com/ybotok/loam/blob/main/src/core/repo/paths.ts),
+  [src/core/kernel/ids/](https://github.com/Vizzori/loam/tree/main/src/core/kernel/ids) and consumed
+  through [src/core/repo/paths.ts](https://github.com/Vizzori/loam/blob/main/src/core/repo/paths.ts),
   with the casts contained by the architecture gate. Verification distinguishes an agent attestation
   from digest-matched test evidence through
-  [src/core/verify/](https://github.com/ybotok/loam/tree/main/src/core/verify) and the verification
+  [src/core/verify/](https://github.com/Vizzori/loam/tree/main/src/core/verify) and the verification
   record defined in [SCHEMA.md](SCHEMA.md).
 - **Executable architecture.** `npm run arch:check`
-  ([scripts/arch-check.mjs](https://github.com/ybotok/loam/blob/main/scripts/arch-check.mjs)) proves
-  every invariant [docs/DESIGN.md](https://github.com/ybotok/loam/blob/main/docs/DESIGN.md) and
-  [docs/CODE-STYLE.md](https://github.com/ybotok/loam/blob/main/docs/CODE-STYLE.md) state — import
+  ([scripts/arch-check.mjs](https://github.com/Vizzori/loam/blob/main/scripts/arch-check.mjs)) proves
+  every invariant [docs/DESIGN.md](https://github.com/Vizzori/loam/blob/main/docs/DESIGN.md) and
+  [docs/CODE-STYLE.md](https://github.com/Vizzori/loam/blob/main/docs/CODE-STYLE.md) state — import
   cycles, the package graph, the core→commands ban, the barrel ban, the console/process boundary,
   child-process bounds, brand-cast containment — each with a negative self-test in
-  [test/arch-gate.test.ts](https://github.com/ybotok/loam/blob/main/test/arch-gate.test.ts); the
+  [test/arch-gate.test.ts](https://github.com/Vizzori/loam/blob/main/test/arch-gate.test.ts); the
   400-line / four-parameter / five-file limits hold with an empty baseline in
-  [test/code-limits.test.ts](https://github.com/ybotok/loam/blob/main/test/code-limits.test.ts);
+  [test/code-limits.test.ts](https://github.com/Vizzori/loam/blob/main/test/code-limits.test.ts);
   coverage thresholds are explicit in
-  [vitest.config.ts](https://github.com/ybotok/loam/blob/main/vitest.config.ts); and
-  [scripts/gate-stress.mjs](https://github.com/ybotok/loam/blob/main/scripts/gate-stress.mjs) makes
+  [vitest.config.ts](https://github.com/Vizzori/loam/blob/main/vitest.config.ts); and
+  [scripts/gate-stress.mjs](https://github.com/Vizzori/loam/blob/main/scripts/gate-stress.mjs) makes
   gate stability a classified measurement rather than an impression.
 
 ## Now
@@ -1090,10 +1090,10 @@ already produced by hand. As with every other section here, the position implies
 ### Model loam's own architecture in loam
 
 loam's architecture is already specified in prose and already executable:
-[docs/DESIGN.md](https://github.com/ybotok/loam/blob/main/docs/DESIGN.md) states it as numbered
+[docs/DESIGN.md](https://github.com/Vizzori/loam/blob/main/docs/DESIGN.md) states it as numbered
 rules, and `npm run arch:check`
-([scripts/arch-check.mjs](https://github.com/ybotok/loam/blob/main/scripts/arch-check.mjs)) over
-[scripts/package-graph.mjs](https://github.com/ybotok/loam/blob/main/scripts/package-graph.mjs) is
+([scripts/arch-check.mjs](https://github.com/Vizzori/loam/blob/main/scripts/arch-check.mjs)) over
+[scripts/package-graph.mjs](https://github.com/Vizzori/loam/blob/main/scripts/package-graph.mjs) is
 their proof. That is exactly the shape of an `arch.spec.md` whose requirements carry `Covers:` lines
 onto a LikeC4 model of loam's own package graph — the one axis where loam's subject matter and
 loam's own tree are the same object.
@@ -1125,11 +1125,11 @@ need the non-goals below forbid — "an agent-confirmed scenario does not become
 make a gate green" — and if such a bridge ever lands it must be because someone's fleet needed it.
 
 One layout constraint is settled rather than open. `loam.json` is in
-[.gitignore](https://github.com/ybotok/loam/blob/main/.gitignore) at the root and no root config is
+[.gitignore](https://github.com/Vizzori/loam/blob/main/.gitignore) at the root and no root config is
 committed: one there governs every directory beneath it, this whole clone included. The self-docs
 therefore live under a subdirectory carrying its own config — `meta/loam.json` over `meta/docs/` —
 which works because config discovery walks upward from the cwd, and it is the shape
-[`examples/docs/`](https://github.com/ybotok/loam/tree/main/examples/docs) now carries too.
+[`examples/docs/`](https://github.com/Vizzori/loam/tree/main/examples/docs) now carries too.
 
 **Self-hosting is not external evidence.** A repository maintained solely for loam is one operator
 by construction, so nothing here substitutes for proof from fleets that are not loam's own. That is
@@ -1140,12 +1140,12 @@ The recommended first step is the architecture axis only:
 
 - `meta/docs/` holding one landscape whose elements are loam's own source packages and whose edges
   are the real import edges
-  [scripts/package-graph.mjs](https://github.com/ybotok/loam/blob/main/scripts/package-graph.mjs)
+  [scripts/package-graph.mjs](https://github.com/Vizzori/loam/blob/main/scripts/package-graph.mjs)
   already computes.
 - One service, `loam`, whose `arch.spec.md` carries DESIGN's numbered rules as requirements with
   `Covers:` lines onto that model.
 - `loam validate --all` running in CI beside `npm run arch:check`, in
-  [.github/workflows/ci.yml](https://github.com/ybotok/loam/blob/main/.github/workflows/ci.yml).
+  [.github/workflows/ci.yml](https://github.com/Vizzori/loam/blob/main/.github/workflows/ci.yml).
 
 **Landed.** `meta/docs/` holds a landscape whose 70 containers are the top-level subjects of `src/`
 and whose 403 relationships are the real value imports, and `services/loam/arch.spec.md` carries

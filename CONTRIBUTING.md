@@ -19,7 +19,7 @@ changes scoped, add tests for behavior changes, and do not commit generated `dis
 To work on loam itself — or to run an unreleased commit — install from a clone:
 
 ```sh
-git clone https://github.com/ybotok/loam.git && cd loam
+git clone https://github.com/Vizzori/loam.git && cd loam
 ./scripts/setup.sh --link     # checks node >= 22.22.3, npm ci, build, smoke-test, npm link
 ```
 
@@ -27,10 +27,10 @@ Drop `--link` to build without a global `loam`. `npm run setup` is `bash scripts
 Windows run `npm ci && npm run build` by hand. `npm run dev -- --help` runs the CLI from source
 without building.
 
-Read [AGENTS.md](https://github.com/ybotok/loam/blob/main/AGENTS.md) before changing Loam itself.
-[docs/DESIGN.md](https://github.com/ybotok/loam/blob/main/docs/DESIGN.md) explains the module
+Read [AGENTS.md](https://github.com/Vizzori/loam/blob/main/AGENTS.md) before changing Loam itself.
+[docs/DESIGN.md](https://github.com/Vizzori/loam/blob/main/docs/DESIGN.md) explains the module
 boundaries and dependency direction, while
-[docs/CODE-STYLE.md](https://github.com/ybotok/loam/blob/main/docs/CODE-STYLE.md) records the
+[docs/CODE-STYLE.md](https://github.com/Vizzori/loam/blob/main/docs/CODE-STYLE.md) records the
 conventions the compiler and linter cannot enforce and the defect behind each one. Read the
 code-style guide before a first change to `src/`.
 
@@ -46,7 +46,7 @@ JSON envelope and stable error codes or explicitly describe a versioned contract
 
 ## The LikeC4 canary
 
-[likec4-canary.yml](https://github.com/ybotok/loam/blob/main/.github/workflows/likec4-canary.yml) is
+[likec4-canary.yml](https://github.com/Vizzori/loam/blob/main/.github/workflows/likec4-canary.yml) is
 a weekly scheduled workflow (manual dispatch included) that installs `likec4@latest` over the exact
 lockfile pin and runs the LikeC4-touching suites against it, then the committed 120-service
 benchmark as informational evidence in the run's step summary. It is an early-warning smoke,
@@ -84,7 +84,7 @@ quiet stretch check that the canary is still enabled.
 
 ## The OpenSpec canary
 
-[openspec-canary.yml](https://github.com/ybotok/loam/blob/main/.github/workflows/openspec-canary.yml)
+[openspec-canary.yml](https://github.com/Vizzori/loam/blob/main/.github/workflows/openspec-canary.yml)
 is the same kind of early-warning smoke for the OpenSpec migration, weekly on Thursday with manual
 dispatch. It resolves the newest `vX.Y.Z` OpenSpec tag with `git ls-remote`, shallow-clones it, and
 runs `npm run test:openspec-corpus -- --baseline latest` against it. Like the LikeC4 canary it has no
@@ -128,5 +128,5 @@ environment, npm trusted publisher, changelog date, private security channel, an
 release-readiness checks must be in place first.
 
 See the
-[fail-closed release checklist](https://github.com/ybotok/loam/blob/main/docs/RELEASE-READINESS.md).
+[fail-closed release checklist](https://github.com/Vizzori/loam/blob/main/docs/RELEASE-READINESS.md).
 Creating a tag or publishing a package is never part of an ordinary contribution.

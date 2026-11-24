@@ -189,14 +189,19 @@ export function markdownHeadings(text) {
   return headings;
 }
 
-const CANONICAL_REPO = /^https:\/\/github\.com\/ybotok\/loam\/(?:blob|tree)\/main\/(.+)$/;
+// The repository moved from `ybotok/loam` to `Vizzori/loam` on 2026-11-24. A
+// link that still names the old owner is classified `external` below, and so
+// passes unchecked: GitHub redirects it, and CHANGELOG's released sections keep
+// theirs as history. A new page spells the owner this pattern names, or its
+// link is never verified.
+const CANONICAL_REPO = /^https:\/\/github\.com\/Vizzori\/loam\/(?:blob|tree)\/main\/(.+)$/;
 
 /**
  * What a link target IS, which decides how it is verified:
  *
  *   anchor    — same-page `#…`; the anchor must slug-match a heading here.
  *   relative  — a path; inside the tarball it must name a shipped file.
- *   canonical — https://github.com/ybotok/loam/(blob|tree)/main/<path>; the
+ *   canonical — https://github.com/Vizzori/loam/(blob|tree)/main/<path>; the
  *               intentional way a shipped page points at repository files the
  *               tarball does not carry. `path` is the repo-relative half. Only
  *               the path is verified: a `#anchor` on a canonical link is NOT
@@ -313,7 +318,7 @@ export function auditPageLinks(page, text, resolve) {
       const path = resolveTarget(page, classified.path);
       if (path === null || !resolve.hasFile(path)) {
         failures.push(
-          `${at} relative link ${link} does not resolve for an installed user — use the canonical https://github.com/ybotok/loam/blob/main/${path ?? classified.path} form, or add the file to the reviewed package list (package.json files[], scripts/package-docs.mjs, and a README pointer)`,
+          `${at} relative link ${link} does not resolve for an installed user — use the canonical https://github.com/Vizzori/loam/blob/main/${path ?? classified.path} form, or add the file to the reviewed package list (package.json files[], scripts/package-docs.mjs, and a README pointer)`,
         );
         continue;
       }

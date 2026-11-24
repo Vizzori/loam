@@ -10,12 +10,13 @@ are pinned to full commit SHAs and checkout does not persist git credentials.
 These cannot be inferred or created safely from this workspace and must be completed before any tag
 is created:
 
-- verify that `https://github.com/ybotok/loam` is the canonical public repository and that
+- verify that `https://github.com/Vizzori/loam` is the canonical public repository and that
   `package.repository`, the release workflow, and GitHub's case-sensitive repository identity all
   refer to it;
 - confirm continued maintainer control of the `@ybotok` npm scope and `@ybotok/loam` package;
 - create/protect the GitHub `npm-production` environment and require appropriate reviewers;
-- configure npm trusted publishing for the exact owner/repository, workflow filename `release.yml`,
+- configure npm trusted publishing on `@ybotok/loam` for GitHub Actions with the exact
+  owner/repository — organization `Vizzori`, repository `loam` — workflow filename `release.yml`,
   and environment `npm-production`;
 - protect release tags and restrict creation of `v*` tags to release maintainers;
 - verify the existing npm trusted-publisher configuration from the npm and GitHub settings;
